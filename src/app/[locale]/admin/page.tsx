@@ -1,9 +1,9 @@
-import Link from 'next/link';
 import { auth } from '@/auth';
 import {
   ButtonRevalidateGallery,
   ButtonRevalidatePost,
 } from '@/components/common/ButtonRevalidate';
+import { Link } from '@/i18n/routing';
 
 export default async function AdminPage() {
   const session = await auth();
