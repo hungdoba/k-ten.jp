@@ -1,0 +1,87 @@
+{
+  "HomePage": {
+    "title": "最新記事",
+    "brief": "日本を満喫し、すべての瞬間を楽しもう"
+  },
+  "LocaleSwitcher": {
+    "label": "言語を変更",
+    "locale": "{locale, select, vi {Tiếng Việt} ja {日本語} en {English}  other {Unknown}}",
+    "icon": "{locale, select, vi {/flags/vi.svg} ja {/flags/ja.svg} en {/flags/en.svg} other {/flags/unknown.svg}}"
+  },
+  "PostList": {
+    "readMore": "続きを読む"
+  },
+  "FullPost": {
+    "loadingMore": "さらに投稿を読み込んでいます...",
+    "noMorePost": "投稿はこれ以上ありません",
+    "tableOfContents": "目次",
+    "edit": "修正"
+  },
+  "JlptPage": {
+    "title": "JLPT",
+    "brief": "各年のJLPT試験の問題と回答のまとめ、みんながより良く勉強できるようにします。",
+    "detail": "言語知識（語彙/文法）、読解、リスニング",
+    "gotoReading": "読解へ",
+    "gotoListening": "リスニングへ"
+  },
+  "SignInPage": {
+    "username": "ユーザー名",
+    "usernamePlaceholder": "ユーザー名を入力してください",
+    "password": "パスワード",
+    "passwordPlaceholder": "8文字以上",
+    "forgot": "パスワードを忘れた場合",
+    "signIn": "サインイン",
+    "signUpQuestion": "まだアカウントをお持ちでないですか？",
+    "signUp": "サインアップ"
+  },
+  "SignUpPage": {
+    "username": "ユーザー名",
+    "usernamePlaceholder": "ユーザー名を入力してください",
+    "email": "メールアドレス",
+    "emailPlaceholder": "user@email.com",
+    "password": "パスワード",
+    "passwordPlaceholder": "8文字以上",
+    "confirmPassword": "パスワードの確認",
+    "confirmPasswordPlaceholder": "8文字以上",
+    "agree": "私は",
+    "term": "利用規約に同意します",
+    "signUp": "登録",
+    "hadAccount": "すでにアカウントをお持ちですか？",
+    "signIn": "サインイン"
+  },
+  "ChangePasswordPage": {
+    "currentPassword": "使用中パスワード",
+    "currentPasswordPlaceholder": "現在のパスワードを入力してください",
+    "newPassword": "新しいパスワード",
+    "newPasswordPlaceholder": "8文字以上",
+    "confirmPassword": "パスワード確認",
+    "confirmPasswordPlaceholder": "8文字以上",
+    "request": "パスワード変更"
+  },
+  "Forgot": {
+    "email": "メールアドレス",
+    "emailPlaceholder": "user@email.com",
+    "or": "または",
+    "signIn": "ここでログイン",
+    "request": "リクエストを送信"
+  },
+  "Navbar": {
+    "changePassword": "パスワード変更",
+    "signOut": "ログアウト",
+    "signIn": "ログイン",
+    "admin": "管理者"
+  },
+  "AskAIPage": {
+    "overview": "このチャットボットAIは、Google Geminiモデルを使用して日本語の会話練習を支援します。何でも質問でき、多言語で回答できます。",
+    "send": "メッセージを送信 ..."
+  },
+  "GalleryPage": {
+    "title": "ギャラリー",
+    "brief": "人生の中でいくつかの美しい瞬間を共有し、皆さんが興味深い瞬間を見つけられることを願っています。"
+  },
+  "UnAuthorizedPage": {
+    "title": "アクセスが拒否されました",
+    "message": "申し訳ありませんが、このページにアクセスする権限がありません。詳細については、管理者にお問い合わせください。",
+    "button": "ホームページに戻る"
+  }
+}
