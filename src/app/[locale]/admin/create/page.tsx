@@ -1,9 +1,17 @@
-import PostForm from '@/components/forms/PostForm';
-import { PostInfo, PostStatic } from '@/types/post';
-import { getCacheCategories } from '@/actions/cache/category';
+import { getCategories } from '@/actions/category';
+import PostCreateForm from '@/components/forms/PostCreateForm';
+import { Locale } from '@/i18n/routing';
+import { PostInfo, PostStatic } from '@/types/Post';
 
-const Create = async () => {
-  const categories = await getCacheCategories();
+interface Props {
+  params: Promise<{
+    locale: Locale;
+  }>;
+}
+
+export default async function CreatePage({ params }: Props) {
+  const { locale } = await params;
+  const categories = await getCategories(locale);
 
   const postStatic: PostStatic = {
     language: 'vi',
@@ -39,7 +47,7 @@ const Create = async () => {
   };
 
   return (
-    <PostForm
+    <PostCreateForm
       mode="create"
       categories={categories}
       initialPostStatic={postStatic}
@@ -47,6 +55,4 @@ const Create = async () => {
       initialPostContents={postContents}
     />
   );
-};
-
-export default Create;
+}

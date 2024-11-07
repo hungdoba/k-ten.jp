@@ -1,16 +1,19 @@
-import PostForm from '@/components/forms/PostForm';
-import { getPostData } from '@/actions/no-cache/post';
-import { getCacheCategories } from '@/actions/cache/category';
+import { getCategories } from '@/actions/category';
+import { getPostData } from '@/actions/post';
+import PostForm from '@/components/forms/PostCreateForm';
+import { Locale } from '@/i18n/routing';
 
 interface Props {
-  params: {
+  params: Promise<{
+    locale: Locale;
     slug: string;
-  };
+  }>;
 }
 
 export default async function Update({ params }: Props) {
-  const categories = await getCacheCategories();
-  const { postStatic, postInfo, postContent } = await getPostData(params.slug);
+  const { locale, slug } = await params;
+  const categories = await getCategories(locale);
+  const { postStatic, postInfo, postContent } = await getPostData(slug);
   return (
     <PostForm
       mode="update"

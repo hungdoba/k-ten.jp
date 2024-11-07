@@ -3,11 +3,7 @@
 import { Locale } from '@/i18n/routing';
 import prisma from '@/libs/db/prisma';
 
-type Props = {
-  locale: Locale;
-};
-
-export async function getCategories({ locale }: Props) {
+export async function getCategories(locale: Locale) {
   const categories = await prisma.post_category.findMany({
     orderBy: {
       id: 'asc',

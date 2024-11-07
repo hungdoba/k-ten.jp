@@ -11,7 +11,7 @@ type Props = {
 export default async function Navbar({ locale }: Props) {
   const session = await auth();
 
-  const categories = await getCategories({ locale });
+  const categories = await getCategories(locale);
 
   const menuItems = categories.map((category) => ({
     href: `/${category.slug}`,

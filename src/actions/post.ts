@@ -3,6 +3,7 @@ import prisma from '@/libs/db/prisma';
 import { Locale } from '@/i18n/routing';
 import { TranslatedPost } from '@/types/TranslatedPost';
 import { post, post_translation } from '@prisma/client';
+import { PostInfo, PostStatic } from '@/types/Post';
 
 type FullPost = post & { post_translation: post_translation[] };
 
@@ -91,4 +92,150 @@ export async function getFullPost(
   });
 
   return post ? convertFullPostToTranslatedPost(post) : null;
+}
+
+// For admin update
+export async function updatePost(formData: FormData): Promise<boolean> {
+  const id = formData.get('id') as string;
+  const slug = formData.get('slug') as string;
+  const post_category = formData.get('post_category') as string;
+  const tags = (formData.get('tags') as string)
+    .split(',')
+    .map((tag) => tag.trim());
+  const header_image = formData.get('header_image') as string;
+  const active = formData.get('active') === 'true';
+  const translations = JSON.parse(formData.get('translations') as string);
+
+  try {
+    // Validate incoming data (simplified validation)
+    if (!id || !slug || !post_category || !translations) {
+      throw new Error('Missing required fields');
+    }
+
+    await prisma.post.update({
+      where: { id: Number(id) },
+      data: {
+        slug,
+        post_category,
+        tags,
+        header_image,
+        active,
+      },
+    });
+
+    // Upsert translations
+    await Promise.all(
+      translations.map((translation: post_translation) =>
+        prisma.post_translation.upsert({
+          where: {
+            post_id_language_code: {
+              post_id: Number(id),
+              language_code: translation.language_code,
+            },
+          },
+          update: {
+            post_title: translation.post_title,
+            post_brief: translation.post_brief,
+            table_of_contents: translation.table_of_contents,
+            post_content: translation.post_content,
+          },
+          create: {
+            post_id: Number(id),
+            language_code: translation.language_code,
+            post_title: translation.post_title,
+            post_brief: translation.post_brief,
+            table_of_contents: translation.table_of_contents,
+            post_content: translation.post_content,
+          },
+        })
+      )
+    );
+
+    return true;
+  } catch (error) {
+    console.error('Error updating post:', error);
+    return false;
+  }
+}
+
+// For admin update
+export async function createPost(
+  formData: FormData
+): Promise<{ message: string; data: FullPost }> {
+  const slug = formData.get('slug') as string;
+  const post_category = formData.get('post_category') as string;
+  const tags = (formData.get('tags') as string)
+    .split(',')
+    .map((tag) => tag.trim());
+  const header_image = (formData.get('header_image') as string) || null;
+  const active = formData.get('active') === 'true';
+  const translations = JSON.parse(formData.get('translations') as string);
+
+  try {
+    // Validate incoming data (simplified validation)
+    if (!slug || !post_category || !translations) {
+      throw new Error('Missing required fields');
+    }
+
+    // Create a new post object
+    const newPost = await prisma.post.create({
+      data: {
+        slug,
+        post_category,
+        tags: tags || [],
+        header_image: header_image!,
+        active: Boolean(active) || false,
+        post_translation: {
+          create: translations.map((translation: post_translation) => ({
+            language_code: translation.language_code,
+            post_title: translation.post_title,
+            post_brief: translation.post_brief,
+            table_of_contents: translation.table_of_contents,
+            post_content: translation.post_content,
+          })),
+        },
+      },
+      include: {
+        post_translation: true,
+      },
+    });
+
+    return { message: 'Post created successfully', data: newPost };
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw new Error('Internal Server Error');
+  }
+}
+
+// For admin update
+export async function getPostData(slug: string) {
+  const data = await prisma.post.findMany({
+    where: { slug: slug },
+    include: { post_translation: true },
+  });
+  const postData = data[0];
+
+  const postStatic: PostStatic = {
+    id: postData.id,
+    language: 'vi',
+    slug: postData.slug,
+    headerImage: postData.header_image,
+    category: postData.post_category,
+    tags: postData.tags.join(', '),
+    visible: postData.active ?? false,
+  };
+
+  const info: Record<string, PostInfo> = {};
+  const content: Record<string, string> = {};
+
+  postData.post_translation.forEach((translation: post_translation) => {
+    info[translation.language_code] = {
+      title: translation.post_title,
+      brief: translation.post_brief,
+      tableOfContent: translation.table_of_contents,
+    };
+    content[translation.language_code] = translation.post_content;
+  });
+
+  return { postStatic, postInfo: info, postContent: content };
 }
