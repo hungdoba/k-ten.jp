@@ -1,5 +1,5 @@
-import ImageView from './ImageView';
-import { getAllImages } from '@/actions/image';
+import ImageView from "../../../../components/forms/ImageView";
+import { getAllImages } from "@/actions/image";
 
 interface Props {
   params: Promise<{ id: number }>;

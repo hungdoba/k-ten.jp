@@ -1,41 +1,49 @@
 "use client";
 
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
-import { EMPTY_FORM_STATE } from "@/types/FormState";
-import { authenticate } from "@/actions/session";
 import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { ButtonSubmit } from "@/components/common/ButtonSubmit";
 
 export default function SignInPage() {
   const t = useTranslations("SignInPage");
-  const [formState, formAction] = useActionState(
-    authenticate,
-    EMPTY_FORM_STATE
-  );
   const router = useRouter();
+  const locale = useLocale();
+  const [error, setError] = useState<string>();
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (error) setError(undefined);
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const callbackUrl = urlParams.get("callbackUrl");
-
-    if (formState.message) {
-      if (formState.status === "ERROR") {
-        toast.error(formState.message);
+    const formData = new FormData(event.currentTarget);
+    signIn("credentials", {
+      username: formData.get("username"),
+      password: formData.get("password"),
+      redirect: false,
+    }).then((result) => {
+      if (result?.error) {
+        toast.error(t("error"));
       } else {
+        const urlParams = new URLSearchParams(window.location.search);
+        const callbackUrl = urlParams.get("callbackUrl");
         if (callbackUrl) {
           router.push(decodeURIComponent(callbackUrl));
         } else {
-          router.push("/");
+          router.push("/" + locale);
         }
       }
-    }
-  }, [formState.status, formState.message, router]);
+    });
+  }
 
   return (
-    <form className="w-96 mx-auto" action={formAction}>
+    <form
+      className="w-96 mx-auto"
+      action="/api/auth/callback/credentials"
+      method="post"
+      onSubmit={onSubmit}
+    >
       <div className="mb-5">
         <label
           htmlFor="username"

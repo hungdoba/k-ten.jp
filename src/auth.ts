@@ -1,9 +1,9 @@
-import NextAuth, { DefaultSession, NextAuthConfig, User } from "next-auth";
+import prisma from "./libs/prisma";
+import { verifyPassword } from "./utils/crypto";
+import { userSignInSchema } from "./utils/validate";
+import { AuthOptions, DefaultSession, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { usernameSchema } from "./utils/validate";
-import prisma from "./libs/db/prisma";
 
-// TODO: recheck role
 declare module "next-auth" {
   interface User {
     role: string;
@@ -22,20 +22,26 @@ declare module "next-auth" {
   }
 }
 
-const config = {
+const auth: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
         username: {},
+        password: {},
       },
 
       async authorize(credentials) {
         // verify username format
         const username = credentials?.username as string;
-        const verifyUsername = usernameSchema.safeParse({ username });
-        if (!verifyUsername.success) {
-          console.log(username, verifyUsername.error);
+        const password = credentials?.password as string;
+
+        const result = userSignInSchema.safeParse({
+          username,
+          password,
+        });
+        if (!result.success) {
+          console.log(username, result.error);
           return null;
         }
 
@@ -46,6 +52,14 @@ const config = {
           },
         });
         if (!user) {
+          return null;
+        }
+
+        const verifyPasswordResult = await verifyPassword(
+          password,
+          user.hashed_password
+        );
+        if (!verifyPasswordResult) {
           return null;
         }
 
@@ -61,9 +75,6 @@ const config = {
       },
     }),
   ],
-  pages: {
-    signIn: "/sign-in",
-  },
   callbacks: {
     jwt: async ({ user, token }) => {
       if (user) {
@@ -79,10 +90,10 @@ const config = {
       }
       return session;
     },
-    authorized: async ({ auth }) => {
-      return !!auth;
-    },
   },
-} satisfies NextAuthConfig;
+  pages: {
+    signIn: "/signin",
+  },
+};
 
-export const { handlers, auth, signIn, signOut } = NextAuth(config);
+export default auth;

@@ -8,12 +8,10 @@ import { formErrorToFormState } from "@/utils/form";
 import { hashPassword, verifyPassword } from "@/utils/crypto";
 import {
   emailSchema,
-  userSignInSchema,
   userSignUpSchema,
   userRePasswordSchema,
 } from "@/utils/validate";
-import { signIn } from "@/auth";
-import prisma from "@/libs/db/prisma";
+import prisma from "@/libs/prisma";
 import { SignUpUser } from "@/types/User";
 
 // Main registration function
@@ -70,60 +68,6 @@ export async function createUser(
     console.error("Sign up user fail, detail: ", error);
     return formErrorToFormState(null);
   }
-}
-
-// User sign in
-export async function authenticate(
-  prevState: FormState,
-  formData: FormData
-): Promise<FormState> {
-  const username = formData.get("username") as string;
-  const password = formData.get("password") as string;
-
-  // check username and password format
-  const result = userSignInSchema.safeParse({
-    username,
-    password,
-  });
-  if (!result.success) {
-    return formErrorToFormState(result.error);
-  }
-
-  // check if username exist
-  const user = await prisma.users.findFirst({
-    where: {
-      username: username,
-    },
-  });
-
-  if (!user) {
-    return formErrorToFormState("User not found");
-  }
-
-  // verify password
-  const verifyPasswordResult = await verifyPassword(
-    password,
-    user.hashed_password
-  );
-  if (!verifyPasswordResult) {
-    return formErrorToFormState("Invalid password");
-  }
-
-  try {
-    // Next-auth sign in
-    const signInResult = await signIn("credentials", {
-      username,
-      redirect: false,
-    });
-
-    // Sign in result
-    if (signInResult?.error) {
-      return formErrorToFormState(signInResult.error);
-    }
-  } catch (error) {
-    return formErrorToFormState(error);
-  }
-  return { status: "SUCCESS", message: "Success" };
 }
 
 // Protected: Update user password

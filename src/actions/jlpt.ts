@@ -1,13 +1,13 @@
-'use server';
+"use server";
 
-import prisma from '@/libs/db/prisma';
-import { JlptTime, MondaiData } from '@/types/Jlpt';
-import { jlpt_chokai } from '@prisma/client';
+import prisma from "@/libs/prisma";
+import { JlptTime, MondaiData } from "@/types/Jlpt";
+import { jlpt_chokai } from "@prisma/client";
 
 // Has cache function
 export async function getJLPTTimes(): Promise<JlptTime[]> {
   const times = await prisma.jlpt_mondai.findMany({
-    orderBy: [{ year: 'asc' }, { month: 'asc' }],
+    orderBy: [{ year: "asc" }, { month: "asc" }],
     select: {
       year: true,
       month: true,
@@ -17,7 +17,7 @@ export async function getJLPTTimes(): Promise<JlptTime[]> {
   const data = Array.from(
     new Set(times.map((time) => `${time.year}-${time.month}`))
   ).map((uniqueTime) => {
-    const [year, month] = uniqueTime.split('-').map(Number);
+    const [year, month] = uniqueTime.split("-").map(Number);
     return { year: year.toString(), month: month.toString() };
   });
   return data;
@@ -55,7 +55,7 @@ export async function getJLPTReadFullDetail(
       month: parseInt(month, 10),
     },
     orderBy: {
-      question_number: 'asc',
+      question_number: "asc",
     },
   });
   return { mondai: mondaiList, questions: questionList } as MondaiData;
@@ -65,8 +65,8 @@ export async function getJLPTReadFullDetail(
 export async function updateQuestionExplain(
   formData: FormData
 ): Promise<boolean> {
-  const id = formData.get('id') as string;
-  const explanation = formData.get('explanation') as string;
+  const id = formData.get("id") as string;
+  const explanation = formData.get("explanation") as string;
 
   try {
     await prisma.jlpt_question.update({
@@ -79,7 +79,7 @@ export async function updateQuestionExplain(
     });
     return true;
   } catch (error) {
-    console.error('Error updating question explanation:', error);
+    console.error("Error updating question explanation:", error);
     return false;
   }
 }
@@ -88,8 +88,8 @@ export async function updateQuestionExplain(
 export async function updateMondaiContent(
   formData: FormData
 ): Promise<boolean> {
-  const id = formData.get('id') as string;
-  const mondai_content = formData.get('mondai_content') as string;
+  const id = formData.get("id") as string;
+  const mondai_content = formData.get("mondai_content") as string;
 
   try {
     await prisma.jlpt_mondai.update({
@@ -102,15 +102,15 @@ export async function updateMondaiContent(
     });
     return true;
   } catch (error) {
-    console.error('Error updating question explanation:', error);
+    console.error("Error updating question explanation:", error);
     return false;
   }
 }
 
 // For admin update jlpt mondai note
 export async function updateMondaiNote(formData: FormData): Promise<boolean> {
-  const id = formData.get('id') as string;
-  const note = formData.get('note') as string;
+  const id = formData.get("id") as string;
+  const note = formData.get("note") as string;
 
   try {
     await prisma.jlpt_mondai.update({
@@ -123,7 +123,7 @@ export async function updateMondaiNote(formData: FormData): Promise<boolean> {
     });
     return true;
   } catch (error) {
-    console.error('Error updating question explanation:', error);
+    console.error("Error updating question explanation:", error);
     return false;
   }
 }

@@ -1,16 +1,16 @@
-import { auth } from '@/auth';
 import {
   ButtonRevalidateGallery,
   ButtonRevalidatePost,
-} from '@/components/common/ButtonRevalidate';
-import { Link } from '@/i18n/routing';
+} from "@/components/common/ButtonRevalidate";
+import { Link } from "@/i18n/routing";
+import { adminInfo } from "@/utils/session";
 
 export default async function AdminPage() {
-  const session = await auth();
-  if (!session || !session.user || session.user.role !== 'admin') {
+  const admin = await adminInfo();
+  if (admin == false) {
     return {
       redirect: {
-        destination: '/unauthorized',
+        destination: "/unauthorized",
         permanent: false,
       },
     };
@@ -22,7 +22,7 @@ export default async function AdminPage() {
         {`Logged in:`}
       </h1>
       <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white mb-8">
-        {session?.user?.email}
+        {admin.email}
       </h1>
       <Link
         href={`/admin/create`}

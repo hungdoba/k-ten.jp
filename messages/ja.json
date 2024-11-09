@@ -32,7 +32,8 @@
     "forgot": "パスワードを忘れた場合",
     "signIn": "サインイン",
     "signUpQuestion": "まだアカウントをお持ちでないですか？",
-    "signUp": "サインアップ"
+    "signUp": "サインアップ",
+    "error": "認証情報が間違いました"
   },
   "SignUpPage": {
     "username": "ユーザー名",

@@ -1,15 +1,14 @@
-import { Session } from 'next-auth';
-import MondaiContent from './MondaiContent';
-import QAE from './QAE';
-import { MondaiData } from '@/types/Jlpt';
-import { jlpt_question } from '@prisma/client';
+import QAE from "./QAE";
+import { MondaiData } from "@/types/Jlpt";
+import MondaiContent from "./MondaiContent";
+import { jlpt_question } from "@prisma/client";
 
 interface Props {
-  session: Session | null;
   data: MondaiData;
+  isAdmin: boolean;
 }
 
-export default async function Mondai7({ session, data }: Props) {
+export default async function Mondai7({ data, isAdmin }: Props) {
   const from_number = data.questions[0].question_number;
   const to_number = data.questions[data.questions.length - 1].question_number;
   return (
@@ -17,9 +16,9 @@ export default async function Mondai7({ session, data }: Props) {
       <div className="mx-4 md:mx-8">
         <div className="flex flex-col mb-4 md:mb-8 md:mt-8">
           <h2 className="mb-4">{`問題７　次の文章を読んで、${from_number} から ${to_number} の中に入る最もよいものを、１・２・３・４から一つ選びなさい。`}</h2>
-          <MondaiContent session={session} mondai={data.mondai[0]} />
+          <MondaiContent isAdmin={isAdmin} mondai={data.mondai[0]} />
           {data.questions.map((question: jlpt_question, id: number) => (
-            <QAE key={id} question={question} session={session} />
+            <QAE key={id} question={question} isAdmin={isAdmin} />
           ))}
         </div>
       </div>

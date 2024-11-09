@@ -1,20 +1,19 @@
-import { Session } from 'next-auth';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface Props {
-  session: Session | null;
   content: string;
   setContent: (content: string) => void;
   handleSubmitChange: (e: React.FormEvent<HTMLFormElement>) => void;
   updated: boolean | null;
+  isAdmin: boolean;
 }
 
 export default function EditableText({
-  session,
   content,
   setContent,
   handleSubmitChange,
   updated,
+  isAdmin,
 }: Props) {
   const [editMode, setEditMode] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -32,7 +31,7 @@ export default function EditableText({
 
   const adaptTextAreaHeight = useCallback(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, []);
@@ -49,10 +48,10 @@ export default function EditableText({
 
   return (
     <form onSubmit={handleSubmitChange}>
-      {session && editMode ? (
+      {isAdmin && editMode ? (
         <textarea
           ref={textareaRef}
-          style={{ overflow: 'hidden', resize: 'none' }}
+          style={{ overflow: "hidden", resize: "none" }}
           className="w-full p-4"
           value={content}
           onChange={handleInput}
@@ -64,7 +63,7 @@ export default function EditableText({
         />
       )}
       <div className="flex flex-row items-center">
-        {session && (
+        {isAdmin && (
           <button
             type="button"
             onClick={changeEditMode}
@@ -82,8 +81,8 @@ export default function EditableText({
           </button>
         )}
         {updated != null && (
-          <p className={updated ? 'text-green-500' : 'text-red-500'}>
-            {updated ? 'Success' : 'Fail'}
+          <p className={updated ? "text-green-500" : "text-red-500"}>
+            {updated ? "Success" : "Fail"}
           </p>
         )}
       </div>

@@ -32,7 +32,8 @@
     "forgot": "Quên mật khẩu",
     "signIn": "Đăng nhập",
     "signUpQuestion": "Chưa có tài khoản?",
-    "signUp": "Đăng ký"
+    "signUp": "Đăng ký",
+    "error": "Sai thông tin đăng nhập"
   },
   "SignUpPage": {
     "username": "Tên người dùng",

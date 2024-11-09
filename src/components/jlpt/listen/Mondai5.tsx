@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { jlpt_chokai } from '@prisma/client';
+import { useState } from "react";
+import { jlpt_chokai } from "@prisma/client";
 
-import QAE from './QAE';
-import Answer from './Answer';
-import Question from './Question';
-import Explain from '../Explain';
+import QAE from "./QAE";
+import Answer from "./Answer";
+import Question from "./Question";
+import Explain from "../Explain";
 
 interface Props {
   questions: jlpt_chokai[];
@@ -33,7 +33,7 @@ export default function Mondai5({ questions }: Props) {
               <h2 className="mb-4">
                 {`
                 1番、${
-                  is3Questions && '2番、'
+                  is3Questions && "2番、"
                 }問題用紙に何も印刷されていません。まず話を聞いてください。それから、質問とせんたくしを聞いて、(1)から
                 (4)の中から、最もよいものを一つ選んでください。
                 `}
@@ -42,7 +42,7 @@ export default function Mondai5({ questions }: Props) {
               {is3Questions && <QAE question={questions[1]} />}
               <h2 className="mb-4">
                 {`
-                ${is3Questions ? '3番' : '2番'}
+                ${is3Questions ? "3番" : "2番"}
                 、まず話を聞いてください。それから、二つの質問を聞いて、それぞれ問題用紙の(1)から(4)の中から、最もよいものを一つ選んでください。
                 `}
               </h2>
@@ -71,7 +71,9 @@ export default function Mondai5({ questions }: Props) {
               />
             </div>
           </div>
-          {showExplain && <Explain content={questions[2].script} />}
+          {showExplain && (
+            <Explain isAdmin={false} content={questions[2].script} />
+          )}
         </div>
       </div>
     </div>

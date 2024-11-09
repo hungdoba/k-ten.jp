@@ -1,20 +1,19 @@
 "use client";
 import { Link } from "@/i18n/routing";
-import { Session } from "next-auth";
 import { useTranslations } from "next-intl";
 import { ReactNode, useState } from "react";
-import { FiAnchor, FiChevronUp, FiList } from "react-icons/fi";
+import { FiAnchor, FiChevronUp, FiEdit, FiList } from "react-icons/fi";
 
 interface Props {
   children: ReactNode;
-  session: Session | null;
   slug: string;
+  isAdmin: boolean;
 }
 
 export default function TableOfContentClient({
   children,
-  session,
   slug,
+  isAdmin,
 }: Props) {
   const t = useTranslations("FullPost");
 
@@ -48,7 +47,7 @@ export default function TableOfContentClient({
       <div
         className={`${
           !visible && "hidden md:block"
-        } z-40 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 md:relative justify-center items-center w-full h-full max-h-full bg-white bg-opacity-95 dark:bg-slate-800 dark:bg-opacity-95`}
+        } z-40 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 md:relative justify-center items-center w-full h-full max-h-full bg-white bg-opacity-95 dark:bg-slate-800 dark:bg-opacity-95 md:bg-transparent md:dark:bg-transparent`}
       >
         <div className="relative p-4 md:p-0 w-full max-w-2xl max-h-full">
           {/* Modal content */}
@@ -59,15 +58,26 @@ export default function TableOfContentClient({
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                   {t("tableOfContents")}
                 </h3>
-                <div
-                  className={`hidden md:block p-2 hover:cursor-pointer ${
-                    pin
-                      ? "text-blue-500 dark:text-blue-600"
-                      : "text-gray-400 dark:text-gray-500"
-                  }`}
-                  onClick={() => setPin(!pin)}
-                >
-                  <FiAnchor />
+                <div className="flex flex-row items-center">
+                  {/* Admin: edit this post */}
+                  {isAdmin && (
+                    <Link
+                      href={`/admin/update/${slug}`}
+                      className="w-full text-gray-400 dark:text-gray-500"
+                    >
+                      <FiEdit />
+                    </Link>
+                  )}
+                  <div
+                    className={`hidden md:block p-2 hover:cursor-pointer ${
+                      pin
+                        ? "text-blue-500 dark:text-blue-600"
+                        : "text-gray-400 dark:text-gray-500"
+                    }`}
+                    onClick={() => setPin(!pin)}
+                  >
+                    <FiAnchor />
+                  </div>
                 </div>
               </div>
 
@@ -103,18 +113,6 @@ export default function TableOfContentClient({
             >
               {children}
             </article>
-
-            {/* Admin action */}
-            {session && (
-              <div className="flex items-center justify-between p-4 border-t border-gray-400 dark:border-gray-600 mt-8">
-                <Link
-                  href={`/admin/update/${slug}`}
-                  className="w-full text-gray-400 dark:text-gray-500"
-                >
-                  Edit
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </div>

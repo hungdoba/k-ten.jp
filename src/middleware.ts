@@ -1,51 +1,82 @@
-import { auth } from '@/auth';
+// import { routing } from "./i18n/routing";
+// import { NextRequest } from "next/server";
+// import { withAuth } from "next-auth/middleware";
+// import createMiddleware from "next-intl/middleware";
+
+// // TODO: hard code category and locale for performance,
+// // must reconfig in case change categories or locales
+// const intlMiddleware = createMiddleware(routing);
+
+// const publicPages = new Set([
+//   "",
+//   "signin",
+//   "signup",
+//   "tips",
+//   "investment",
+//   "jlpt",
+//   "gallery",
+// ]);
+
+// const authMiddleware = withAuth((req) => intlMiddleware(req));
+
+// export default function middleware(req: NextRequest) {
+//   let pathname = req.nextUrl.pathname;
+//   const normalizedPath = pathname.replace(/^\/(en|ja|vi)\//, "/");
+//   const isPublicPage = publicPages.has(normalizedPath.split("/")[1]);
+
+//   if (isPublicPage) {
+//     return intlMiddleware(req);
+//   } else {
+//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//     return (authMiddleware as any)(req);
+//   }
+// }
+
+// export const config = {
+//   matcher: ["/((?!api|_next|.*\\..*).*)"],
+// };
+
 import { routing } from './i18n/routing';
+import { NextRequest } from 'next/server';
+import { withAuth } from 'next-auth/middleware';
 import createMiddleware from 'next-intl/middleware';
-import { NextRequest, NextResponse } from 'next/server';
 
-const adminPaths = ['/admin'];
-const protectedPaths = ['/admin', '/ask', '/password/change'];
-
+// TODO: hard-code category and locale for performance,
+// must reconfigure in case of category or locale changes
 const intlMiddleware = createMiddleware(routing);
 
-const authMiddleware = auth((req, isAdminPage) => {
-  const reqUrl = new URL(req.url);
-  const locale = req.cookies.get('NEXT_LOCALE')?.value || 'en';
+const publicPages = new Set([
+  '',
+  'signin',
+  'signup',
+  'tips',
+  'investment',
+  'jlpt',
+  'gallery',
+]);
 
-  if (!req.auth) {
-    return NextResponse.redirect(
-      new URL(
-        `/${locale}/signin?callbackUrl=${encodeURIComponent(reqUrl.pathname)}`,
-        req.url
-      )
-    );
-  }
+// Default auth middleware without unnecessary wrapping
+const authMiddleware = withAuth((req) => intlMiddleware(req));
 
-  if (isAdminPage && req.auth.user.role !== 'admin') {
-    return NextResponse.redirect(new URL(`/${locale}/unauthorized`, req.url));
-  }
-
-  return intlMiddleware(req);
-});
-
-const createPathRegex = (paths: string[]) =>
-  new RegExp(`^(/(${routing.locales.join('|')}))?(${paths.join('|')})/?$`, 'i');
-
-const protectedPathRegex = createPathRegex(protectedPaths);
-const adminPathRegex = createPathRegex(adminPaths);
-
-// TODO: fix case when user change url to page which not has locale
 export default function middleware(req: NextRequest) {
-  const pathname = req.nextUrl.pathname;
-  const isProtectedPage = protectedPathRegex.test(pathname);
-  const isAdminPage = adminPathRegex.test(pathname);
+  let pathname = req.nextUrl.pathname;
 
-  return isProtectedPage
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (authMiddleware as any)(req, isAdminPage)
-    : intlMiddleware(req);
+  // Strip the locale prefix (e.g., /en/, /ja/, /vi/)
+  const languagePrefix = pathname.split('/')[1];
+  if (['en', 'ja', 'vi'].includes(languagePrefix)) {
+    pathname = pathname.replace(`/${languagePrefix}`, '');
+  }
+
+  const isPublicPage = publicPages.has(pathname.split('/')[1]);
+
+  if (isPublicPage) {
+    return intlMiddleware(req); // Skip auth for public pages
+  } else {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (authMiddleware as any)(req);
+  }
 }
 
 export const config = {
-  matcher: ['/', '/(vi|ja|en)/:path*'],
+  matcher: ['/((?!api|_next|.*\\..*).*)'], // Avoid unnecessary middleware on API and Next.js assets
 };

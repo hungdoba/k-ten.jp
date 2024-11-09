@@ -1,32 +1,28 @@
-import Link from 'next/link';
-import toast from 'react-hot-toast';
-import { ChangeEvent, useState } from 'react';
-import { FiTrash, FiUploadCloud } from 'react-icons/fi';
-import { post_category } from '@prisma/client';
-import { PostStatic } from '@/types/Post';
-import { MenuItem } from '@/types/MenuItem';
-import { routing } from '@/i18n/routing';
-import { deleteImage, uploadImage } from '@/actions/image';
-import Dropdown from '../common/Dropdown';
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { ChangeEvent, useState } from "react";
+import { FiTrash, FiUploadCloud } from "react-icons/fi";
+import { post_category } from "@prisma/client";
+import { PostStatic } from "@/types/Post";
+import { MenuItem } from "@/types/MenuItem";
+import { Locale } from "@/i18n/routing";
+import { deleteImage, uploadImage } from "@/actions/image";
+import Dropdown from "../common/Dropdown";
+import LocaleList from "../common/LocaleList";
 
-interface PostStaticInfoEditorProps {
+interface Props {
   categories: post_category[];
   postStatic: PostStatic;
   onChange: (postStatic: PostStatic) => void;
 }
 
-const PostStaticInfoEditor: React.FC<PostStaticInfoEditorProps> = ({
+const PostStaticInfoEditor: React.FC<Props> = ({
   categories,
   postStatic,
   onChange,
 }) => {
   const { slug, headerImage, category, tags, visible } = postStatic;
   const [deleteSuccess, SetDeleteSuccess] = useState<true | false | null>(null);
-
-  const languages: MenuItem[] = routing.locales.map((locale) => ({
-    label: locale,
-    value: locale,
-  }));
 
   const categoryOptions: MenuItem[] = categories
     .filter((category) => category.locale === postStatic.language)
@@ -35,12 +31,8 @@ const PostStaticInfoEditor: React.FC<PostStaticInfoEditorProps> = ({
       value: category.slug,
     }));
 
-  const handleLanguageSelect = (lang: string) => {
-    onChange({ ...postStatic, language: lang });
-  };
-
   const handleSlugChange = (slug: string) => {
-    slug = slug.toLowerCase().trim().replace(/\s+/g, '-');
+    slug = slug.toLowerCase().trim().replace(/\s+/g, "-");
     onChange({ ...postStatic, slug });
   };
 
@@ -64,17 +56,17 @@ const PostStaticInfoEditor: React.FC<PostStaticInfoEditorProps> = ({
       if (file) {
         try {
           const formData = new FormData();
-          formData.append('image', file);
+          formData.append("image", file);
           formData.append(
-            'folder',
+            "folder",
             process.env.NEXT_PUBLIC_CLOUDINARY_POST_FOLDER!
           );
           const imageUrl = await uploadImage(formData);
           if (imageUrl) onChange({ ...postStatic, headerImage: imageUrl });
-          else toast.error('Upload image failed');
+          else toast.error("Upload image failed");
         } catch (error) {
-          console.error('Error uploading image:', error);
-          toast.error('Upload image failed');
+          console.error("Error uploading image:", error);
+          toast.error("Upload image failed");
         }
       }
     }
@@ -94,8 +86,8 @@ const PostStaticInfoEditor: React.FC<PostStaticInfoEditorProps> = ({
   async function handleDeleteImage(event: React.DragEvent<HTMLLabelElement>) {
     SetDeleteSuccess(null);
     event.preventDefault();
-    const text = event.dataTransfer.getData('text/plain');
-    const isHeaderImage = text.startsWith('https');
+    const text = event.dataTransfer.getData("text/plain");
+    const isHeaderImage = text.startsWith("https");
 
     let publicId = extractPublicId(text);
     if (publicId) {
@@ -103,9 +95,9 @@ const PostStaticInfoEditor: React.FC<PostStaticInfoEditorProps> = ({
       const result = await deleteImage(publicId);
       SetDeleteSuccess(result);
       if (result) {
-        toast.success('Delete image success');
+        toast.success("Delete image success");
       } else {
-        toast.error('Delete image failed');
+        toast.error("Delete image failed");
       }
       if (isHeaderImage) {
         if (result) {
@@ -113,14 +105,18 @@ const PostStaticInfoEditor: React.FC<PostStaticInfoEditorProps> = ({
         }
       }
     } else {
-      toast.error('Can not find the public id');
+      toast.error("Can not find the public id");
     }
+  }
+
+  function handleLocaleChange(locale: Locale): void {
+    onChange({ ...postStatic, language: locale });
   }
 
   return (
     <form className="mx-auto md:mr-4">
       <div className="relative w-full mb-5 group z-10">
-        <Dropdown menuItems={languages} onSelect={handleLanguageSelect} />
+        <LocaleList onLocaleChange={handleLocaleChange} />
       </div>
       <div className="relative w-full mb-5 group">
         <input
@@ -174,7 +170,7 @@ const PostStaticInfoEditor: React.FC<PostStaticInfoEditorProps> = ({
             <div
               className={`${
                 deleteSuccess != null &&
-                (deleteSuccess ? 'text-green-500' : 'text-red-500')
+                (deleteSuccess ? "text-green-500" : "text-red-500")
               } flex flex-col items-center justify-center pt-5 pb-4`}
             >
               <FiTrash />

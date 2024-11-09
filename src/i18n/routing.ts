@@ -1,9 +1,11 @@
-import { defineRouting } from 'next-intl/routing';
-import { createNavigation } from 'next-intl/navigation';
+import { defineRouting } from "next-intl/routing";
+import { createNavigation } from "next-intl/navigation";
 
+// Recheck middleware in case change locales
 export const routing = defineRouting({
-  locales: ['vi', 'ja', 'en'],
-  defaultLocale: 'vi',
+  locales: ["vi", "ja", "en"],
+  defaultLocale: "vi",
+  localePrefix: "as-needed",
 });
 
 export type Locale = (typeof routing.locales)[number];

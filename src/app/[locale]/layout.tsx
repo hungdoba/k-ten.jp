@@ -8,7 +8,6 @@ import { Locale, routing } from "@/i18n/routing";
 import { ReactNode } from "react";
 import { Providers } from "./providers";
 import { Toaster } from "react-hot-toast";
-import ReactQueryProvider from "./ReactQuery";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -52,9 +51,7 @@ export default async function RootLayout({ children, params }: Props) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900`}
       >
         <NextIntlClientProvider messages={messages}>
-          <Providers>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
-          </Providers>
+          <Providers>{children}</Providers>
         </NextIntlClientProvider>
         <Toaster />
       </body>

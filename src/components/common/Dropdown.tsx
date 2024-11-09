@@ -2,17 +2,20 @@
 import Image from "next/image";
 import { MenuItem } from "@/types/MenuItem";
 import { useEffect, useRef, useState } from "react";
+import { Locale } from "@/i18n/routing";
 
 interface Props {
   menuItems: MenuItem[];
-  onSelect: (value: string) => void;
-  defaultSelected?: number | string; // string is value
+  onSelect: (value: Locale) => void;
+  defaultSelected?: number | string; // string in case it is value
+  isPending?: boolean;
 }
 
 export default function Dropdown({
   menuItems,
   onSelect,
   defaultSelected = 0,
+  isPending = false,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -23,13 +26,14 @@ export default function Dropdown({
   );
 
   const toggleDropdown = () => {
+    if (isPending) return;
     setIsOpen(!isOpen);
   };
 
   const handleMenuItemClick = (index: number) => {
     setIsOpen(false);
     setSelected(index);
-    onSelect(menuItems[index].value);
+    onSelect(menuItems[index].value as Locale);
   };
 
   useEffect(() => {
@@ -54,18 +58,22 @@ export default function Dropdown({
         onClick={toggleDropdown}
         data-dropdown-toggle="dropdown"
       >
-        <Image
-          className="mr-2"
-          src={menuItems[selected].icon ?? ""}
-          alt="flag icon"
-          width={16}
-          height={16}
-          style={{
-            maxWidth: "100%",
-            height: "auto",
-          }}
-        />
-        <p className="text-nowrap">{menuItems[selected].label}</p>
+        {menuItems[selected] && menuItems[selected].icon && (
+          <Image
+            className="mr-2"
+            src={menuItems[selected].icon}
+            alt="flag icon"
+            width={16}
+            height={16}
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+            }}
+          />
+        )}
+        <p className="text-nowrap">
+          {menuItems[selected] && menuItems[selected].label}
+        </p>
         <svg
           className={`w-2.5 h-2.5 ms-3 ${isOpen ? "transform rotate-180" : ""}`}
           aria-hidden="true"
@@ -109,7 +117,9 @@ export default function Dropdown({
                   }}
                 />
               )}
-              <button className="text-left text-nowrap">{item.label}</button>
+              <button type="button" className="text-left text-nowrap">
+                {item.label}
+              </button>
             </li>
           ))}
         </ul>

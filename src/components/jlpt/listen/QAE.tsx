@@ -1,10 +1,10 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
-import Question from './Question';
-import Answer from './Answer';
-import Explain from '../Explain';
-import { jlpt_chokai } from '@prisma/client';
+import Question from "./Question";
+import Answer from "./Answer";
+import Explain from "../Explain";
+import { jlpt_chokai } from "@prisma/client";
 
 interface Props {
   question: jlpt_chokai;
@@ -39,7 +39,7 @@ export default function QAE({ question }: Props) {
       />
       {showExplain && (
         <Explain
-          session={null}
+          isAdmin={false}
           question_id={question.id}
           content={question.script}
         />

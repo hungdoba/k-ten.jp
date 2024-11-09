@@ -1,9 +1,9 @@
-'use server';
-import prisma from '@/libs/db/prisma';
-import { Locale } from '@/i18n/routing';
-import { TranslatedPost } from '@/types/TranslatedPost';
-import { post, post_translation } from '@prisma/client';
-import { PostInfo, PostStatic } from '@/types/Post';
+"use server";
+import prisma from "@/libs/prisma";
+import { Locale } from "@/i18n/routing";
+import { TranslatedPost } from "@/types/TranslatedPost";
+import { post, post_translation } from "@prisma/client";
+import { PostInfo, PostStatic } from "@/types/Post";
 
 type FullPost = post & { post_translation: post_translation[] };
 
@@ -18,11 +18,11 @@ function convertFullPostToTranslatedPost(post: FullPost): TranslatedPost {
     created_at: post.created_at,
     updated_at: post.updated_at,
     active: post.active ?? undefined,
-    language_code: translation.language_code || '',
-    post_title: translation.post_title || '',
-    post_brief: translation.post_brief || '',
-    table_of_contents: translation.table_of_contents || '',
-    post_content: translation.post_content || '',
+    language_code: translation.language_code || "",
+    post_title: translation.post_title || "",
+    post_brief: translation.post_brief || "",
+    table_of_contents: translation.table_of_contents || "",
+    post_content: translation.post_content || "",
   };
 }
 
@@ -46,7 +46,7 @@ async function fetchPosts({
 
   const posts = await prisma.post.findMany({
     where: filters,
-    orderBy: { updated_at: 'desc' },
+    orderBy: { updated_at: "desc" },
     include: {
       post_translation: { where: { language_code: locale } },
     },
@@ -96,20 +96,20 @@ export async function getFullPost(
 
 // For admin update
 export async function updatePost(formData: FormData): Promise<boolean> {
-  const id = formData.get('id') as string;
-  const slug = formData.get('slug') as string;
-  const post_category = formData.get('post_category') as string;
-  const tags = (formData.get('tags') as string)
-    .split(',')
+  const id = formData.get("id") as string;
+  const slug = formData.get("slug") as string;
+  const post_category = formData.get("post_category") as string;
+  const tags = (formData.get("tags") as string)
+    .split(",")
     .map((tag) => tag.trim());
-  const header_image = formData.get('header_image') as string;
-  const active = formData.get('active') === 'true';
-  const translations = JSON.parse(formData.get('translations') as string);
+  const header_image = formData.get("header_image") as string;
+  const active = formData.get("active") === "true";
+  const translations = JSON.parse(formData.get("translations") as string);
 
   try {
     // Validate incoming data (simplified validation)
     if (!id || !slug || !post_category || !translations) {
-      throw new Error('Missing required fields');
+      throw new Error("Missing required fields");
     }
 
     await prisma.post.update({
@@ -153,7 +153,7 @@ export async function updatePost(formData: FormData): Promise<boolean> {
 
     return true;
   } catch (error) {
-    console.error('Error updating post:', error);
+    console.error("Error updating post:", error);
     return false;
   }
 }
@@ -162,19 +162,19 @@ export async function updatePost(formData: FormData): Promise<boolean> {
 export async function createPost(
   formData: FormData
 ): Promise<{ message: string; data: FullPost }> {
-  const slug = formData.get('slug') as string;
-  const post_category = formData.get('post_category') as string;
-  const tags = (formData.get('tags') as string)
-    .split(',')
+  const slug = formData.get("slug") as string;
+  const post_category = formData.get("post_category") as string;
+  const tags = (formData.get("tags") as string)
+    .split(",")
     .map((tag) => tag.trim());
-  const header_image = (formData.get('header_image') as string) || null;
-  const active = formData.get('active') === 'true';
-  const translations = JSON.parse(formData.get('translations') as string);
+  const header_image = (formData.get("header_image") as string) || null;
+  const active = formData.get("active") === "true";
+  const translations = JSON.parse(formData.get("translations") as string);
 
   try {
     // Validate incoming data (simplified validation)
     if (!slug || !post_category || !translations) {
-      throw new Error('Missing required fields');
+      throw new Error("Missing required fields");
     }
 
     // Create a new post object
@@ -200,10 +200,10 @@ export async function createPost(
       },
     });
 
-    return { message: 'Post created successfully', data: newPost };
+    return { message: "Post created successfully", data: newPost };
   } catch (error) {
-    console.error('Error creating post:', error);
-    throw new Error('Internal Server Error');
+    console.error("Error creating post:", error);
+    throw new Error("Internal Server Error");
   }
 }
 
@@ -217,11 +217,11 @@ export async function getPostData(slug: string) {
 
   const postStatic: PostStatic = {
     id: postData.id,
-    language: 'vi',
+    language: "vi",
     slug: postData.slug,
     headerImage: postData.header_image,
     category: postData.post_category,
-    tags: postData.tags.join(', '),
+    tags: postData.tags.join(", "),
     visible: postData.active ?? false,
   };
 

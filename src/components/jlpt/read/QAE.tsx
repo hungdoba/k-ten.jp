@@ -1,19 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import Answer from './Answer';
-import Explain from '../Explain';
-import { jlpt_question } from '@prisma/client';
-import Question from './Question';
-import { Session } from 'next-auth';
+import Answer from "./Answer";
+import Explain from "../Explain";
+import Question from "./Question";
+import { jlpt_question } from "@prisma/client";
 
 interface Props {
   question: jlpt_question;
-  session: Session | null;
+  isAdmin: boolean;
 }
 
-export default function QAE({ question, session }: Props) {
+export default function QAE({ question, isAdmin }: Props) {
   const [hintShowed, setShowHint] = useState(false);
   const [showExplain, setShowExplain] = useState(false);
   const [selectedOption, setSelectedOption] = useState(0);
@@ -44,7 +43,7 @@ export default function QAE({ question, session }: Props) {
         <Explain
           question_id={question.id}
           content={question.explanation}
-          session={session}
+          isAdmin={isAdmin}
         />
       )}
     </div>

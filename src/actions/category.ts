@@ -1,12 +1,12 @@
-'use server';
+"use server";
 
-import { Locale } from '@/i18n/routing';
-import prisma from '@/libs/db/prisma';
+import { Locale } from "@/i18n/routing";
+import prisma from "@/libs/prisma";
 
-export async function getCategories(locale: Locale) {
+export async function getCategories(locale?: Locale) {
   const categories = await prisma.post_category.findMany({
     orderBy: {
-      id: 'asc',
+      id: "asc",
     },
     where: {
       active: true,
@@ -19,7 +19,7 @@ export async function getCategories(locale: Locale) {
 export async function getCategory(locale: Locale, slug: string) {
   const categories = await prisma.post_category.findFirst({
     orderBy: {
-      id: 'asc',
+      id: "asc",
     },
     where: {
       active: true,

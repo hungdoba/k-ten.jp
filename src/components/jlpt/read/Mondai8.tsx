@@ -1,22 +1,21 @@
-import { Session } from 'next-auth';
-import MondaiContent from './MondaiContent';
-import QAE from './QAE';
-import { MondaiData } from '@/types/Jlpt';
+import QAE from "./QAE";
+import { MondaiData } from "@/types/Jlpt";
+import MondaiContent from "./MondaiContent";
 
 interface Props {
-  session: Session | null;
   data1: MondaiData;
   data2: MondaiData;
   data3: MondaiData;
   data4: MondaiData;
+  isAdmin: boolean;
 }
 
 export default async function Mondai8({
-  session,
   data1,
   data2,
   data3,
   data4,
+  isAdmin,
 }: Props) {
   return (
     <div className="container mx-auto w-full mt-4 md:max-w-5xl">
@@ -27,28 +26,28 @@ export default async function Mondai8({
           </h2>
           {/* Q1 */}
           <div className="flex flex-col">
-            <MondaiContent session={session} mondai={data1.mondai[0]} />
-            <QAE question={data1.questions[0]} session={session} />
+            <MondaiContent isAdmin={isAdmin} mondai={data1.mondai[0]} />
+            <QAE question={data1.questions[0]} isAdmin={isAdmin} />
           </div>
 
           {/* Q2 */}
           <div className="flex flex-col">
-            <MondaiContent session={session} mondai={data2.mondai[0]} />
-            <QAE question={data2.questions[0]} session={session} />
+            <MondaiContent isAdmin={isAdmin} mondai={data2.mondai[0]} />
+            <QAE question={data2.questions[0]} isAdmin={isAdmin} />
           </div>
 
           {/* Q3 */}
           <div className="flex flex-col">
-            <MondaiContent session={session} mondai={data3.mondai[0]} />
-            <QAE question={data3.questions[0]} session={session} />
+            <MondaiContent isAdmin={isAdmin} mondai={data3.mondai[0]} />
+            <QAE question={data3.questions[0]} isAdmin={isAdmin} />
           </div>
 
           {/* Q4 */}
           {data4 && (
             <div>
               <div className="flex flex-col">
-                <MondaiContent session={session} mondai={data4.mondai[0]} />
-                <QAE question={data4.questions[0]} session={session} />
+                <MondaiContent isAdmin={isAdmin} mondai={data4.mondai[0]} />
+                <QAE question={data4.questions[0]} isAdmin={isAdmin} />
               </div>
             </div>
           )}

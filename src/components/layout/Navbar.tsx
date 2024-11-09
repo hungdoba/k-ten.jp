@@ -1,15 +1,14 @@
-import { auth } from '@/auth';
-import { Locale } from '@/i18n/routing';
-import NavbarClient from './NavbarClient';
-import { getCategories } from '@/actions/category';
-import { ButtonSignOut } from '../common/ButtonSignOut';
+import { Locale } from "@/i18n/routing";
+import NavbarClient from "./NavbarClient";
+import { getCategories } from "@/actions/category";
+import { getServerSession } from "next-auth";
 
 type Props = {
   locale: Locale;
 };
 
 export default async function Navbar({ locale }: Props) {
-  const session = await auth();
+  const session = await getServerSession();
 
   const categories = await getCategories(locale);
 
@@ -18,9 +17,5 @@ export default async function Navbar({ locale }: Props) {
     label: category.title,
   }));
 
-  return (
-    <NavbarClient session={session} menuItems={menuItems}>
-      <ButtonSignOut />
-    </NavbarClient>
-  );
+  return <NavbarClient session={session} menuItems={menuItems} />;
 }

@@ -32,7 +32,8 @@
     "forgot": "Forgot your password",
     "signIn": "Sign In",
     "signUpQuestion": "Don’t have an account yet?",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "error": "Invalid credentials"
   },
   "SignUpPage": {
     "username": "Your username",

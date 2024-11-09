@@ -1,23 +1,22 @@
-import QAE from './QAE';
-import MondaiContent from './MondaiContent';
-import { Session } from 'next-auth';
-import { MondaiData } from '@/types/Jlpt';
-import { jlpt_question } from '@prisma/client';
+import QAE from "./QAE";
+import { MondaiData } from "@/types/Jlpt";
+import MondaiContent from "./MondaiContent";
+import { jlpt_question } from "@prisma/client";
 
 interface Props {
-  session: Session | null;
   data1: MondaiData;
   data2: MondaiData;
   data3: MondaiData;
   data4: MondaiData;
+  isAdmin: boolean;
 }
 
 export default async function Mondai9({
-  session,
   data1,
   data2,
   data3,
   data4,
+  isAdmin,
 }: Props) {
   return (
     <div className="container mx-auto w-full mt-4 md:max-w-5xl">
@@ -30,9 +29,9 @@ export default async function Mondai9({
           {/* Q1 */}
           <div>
             <div className="flex flex-col">
-              <MondaiContent session={session} mondai={data1.mondai[0]} />
+              <MondaiContent isAdmin={isAdmin} mondai={data1.mondai[0]} />
               {data1.questions.map((question: jlpt_question, id: number) => (
-                <QAE key={id} question={question} session={session} />
+                <QAE key={id} question={question} isAdmin={isAdmin} />
               ))}
             </div>
           </div>
@@ -40,9 +39,9 @@ export default async function Mondai9({
           {/* Q2 */}
           <div>
             <div className="flex flex-col">
-              <MondaiContent session={session} mondai={data2.mondai[0]} />
+              <MondaiContent isAdmin={isAdmin} mondai={data2.mondai[0]} />
               {data2.questions.map((question: jlpt_question, id: number) => (
-                <QAE key={id} question={question} session={session} />
+                <QAE key={id} question={question} isAdmin={isAdmin} />
               ))}
             </div>
           </div>
@@ -50,9 +49,9 @@ export default async function Mondai9({
           {/* Q3 */}
           <div>
             <div className="flex flex-col">
-              <MondaiContent session={session} mondai={data3.mondai[0]} />
+              <MondaiContent isAdmin={isAdmin} mondai={data3.mondai[0]} />
               {data3.questions.map((question: jlpt_question, id: number) => (
-                <QAE key={id} question={question} session={session} />
+                <QAE key={id} question={question} isAdmin={isAdmin} />
               ))}
             </div>
           </div>
@@ -61,9 +60,9 @@ export default async function Mondai9({
           {data4.mondai.length > 0 && (
             <div>
               <div className="flex flex-col">
-                <MondaiContent session={session} mondai={data4.mondai[0]} />
+                <MondaiContent isAdmin={isAdmin} mondai={data4.mondai[0]} />
                 {data4.questions.map((question: jlpt_question, id: number) => (
-                  <QAE key={id} question={question} session={session} />
+                  <QAE key={id} question={question} isAdmin={isAdmin} />
                 ))}
               </div>
             </div>
