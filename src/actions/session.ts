@@ -1,28 +1,29 @@
-"use server";
+'use server';
 
-import crypto from "crypto";
-import { getTimestamp } from "@/utils/time";
-import { getUserId } from "@/utils/session";
-import { FormState } from "@/types/FormState";
-import { formErrorToFormState } from "@/utils/form";
-import { hashPassword, verifyPassword } from "@/utils/crypto";
+import crypto from 'crypto';
+import { getTimestamp } from '@/utils/time';
+import { getUserId } from '@/utils/session';
+import { FormState } from '@/types/FormState';
+import { formErrorToFormState } from '@/utils/form';
+import { hashPassword, verifyPassword } from '@/utils/crypto';
 import {
   emailSchema,
   userSignUpSchema,
   userRePasswordSchema,
-} from "@/utils/validate";
-import prisma from "@/libs/prisma";
-import { SignUpUser } from "@/types/User";
+} from '@/utils/validate';
+import prisma from '@/libs/prisma';
+import { SignUpUser } from '@/types/User';
+import { sendMail } from './mail';
 
 // Main registration function
 export async function createUser(
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const username = formData.get("username") as string;
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const rePassword = formData.get("rePassword") as string;
+  const username = formData.get('username') as string;
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+  const rePassword = formData.get('rePassword') as string;
 
   // Validate the data
   const result = userSignUpSchema.safeParse({
@@ -51,7 +52,7 @@ export async function createUser(
         username: username,
         email: email,
         hashed_password: hashedPassword,
-        role: "user",
+        role: 'user',
         created_at: timeNow,
         updated_at: timeNow,
       },
@@ -59,13 +60,13 @@ export async function createUser(
 
     if (!newUser) {
       return formErrorToFormState(
-        "User sign up fail, fail step: create user in database"
+        'User sign up fail, fail step: create user in database'
       );
     }
 
-    return { status: "SUCCESS", message: "Success" };
+    return { status: 'SUCCESS', message: 'Success' };
   } catch (error) {
-    console.error("Sign up user fail, detail: ", error);
+    console.error('Sign up user fail, detail: ', error);
     return formErrorToFormState(null);
   }
 }
@@ -76,11 +77,11 @@ export async function updatePassword(
   formData: FormData
 ): Promise<FormState> {
   const userId = await getUserId();
-  if (typeof userId === "string") return formErrorToFormState(userId);
+  if (typeof userId === 'string') return formErrorToFormState(userId);
 
-  const currentPassword = formData.get("currentPassword") as string;
-  const password = formData.get("newPassword") as string;
-  const rePassword = formData.get("rePassword") as string;
+  const currentPassword = formData.get('currentPassword') as string;
+  const password = formData.get('newPassword') as string;
+  const rePassword = formData.get('rePassword') as string;
 
   const result = userRePasswordSchema.safeParse({
     password,
@@ -96,7 +97,7 @@ export async function updatePassword(
     },
   });
   if (!user) {
-    return formErrorToFormState("User not found");
+    return formErrorToFormState('User not found');
   }
 
   // verify password
@@ -105,7 +106,7 @@ export async function updatePassword(
     user.hashed_password
   );
   if (!verifyPasswordResult) {
-    return formErrorToFormState("Invalid password");
+    return formErrorToFormState('Invalid password');
   }
 
   try {
@@ -117,9 +118,9 @@ export async function updatePassword(
         hashed_password: hashedPassword,
       },
     });
-    return { status: "SUCCESS", message: "Success" };
+    return { status: 'SUCCESS', message: 'Success' };
   } catch (error) {
-    console.error("Error during update password:", error);
+    console.error('Error during update password:', error);
     return formErrorToFormState(null);
   }
 }
@@ -129,7 +130,7 @@ export async function resetPassword(
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const email = formData.get("email") as string;
+  const email = formData.get('email') as string;
 
   // Validate the data
   const result = emailSchema.safeParse({ email });
@@ -144,11 +145,11 @@ export async function resetPassword(
     });
 
     if (!user) {
-      return formErrorToFormState("User not found");
+      return formErrorToFormState('User not found');
     }
 
     // Generate a unique reset token
-    let resetToken = crypto.randomBytes(32).toString("hex");
+    let resetToken = crypto.randomBytes(32).toString('hex');
 
     // Set an expiration time for the token (1 hour from now)
     const requestedAt = getTimestamp();
@@ -164,7 +165,7 @@ export async function resetPassword(
       // If the user has requested a reset within the last minute, return an error
       if (existingReset.requested_at + 60 > requestedAt) {
         return formErrorToFormState(
-          "Please wait a minute before requesting another reset"
+          'Please wait a minute before requesting another reset'
         );
       } else if (existingReset.expires_at > requestedAt) {
         // If the token is still valid, use the existing token, update requested_at
@@ -199,20 +200,20 @@ export async function resetPassword(
     }
 
     // TODO: Send an email to the user with a link containing the reset token
-    // const resetLink = `${process.env.NEXT_PUBLIC_DOMAIN}/reset-password?token=${resetToken}`;
-    // const sendMailResult = await sendMail(
-    //   email,
-    //   'Password Reset Request',
-    //   `You requested a password reset. Click the link to reset your password: ${resetLink}`,
-    //   `You requested a password reset. Click the link to reset your password: <a href="${resetLink}">${resetLink}</a>`
-    // );
+    const resetLink = `${process.env.NEXT_PUBLIC_DOMAIN}/reset-password?token=${resetToken}`;
+    const sendMailResult = await sendMail(
+      email,
+      'Password Reset Request',
+      `You requested a password reset. Click the link to reset your password: ${resetLink}`,
+      `You requested a password reset. Click the link to reset your password: <a href="${resetLink}">${resetLink}</a>`
+    );
 
-    // if (sendMailResult !== true) {
-    //   return formErrorToFormState(sendMailResult);
-    // }
-    return { status: "SUCCESS", message: "Password reset email sent" };
+    if (sendMailResult !== true) {
+      return formErrorToFormState(sendMailResult);
+    }
+    return { status: 'SUCCESS', message: 'Password reset email sent' };
   } catch (error) {
-    console.error("Error during reset password:", error);
+    console.error('Error during reset password:', error);
     return formErrorToFormState(null);
   }
 }
@@ -222,9 +223,9 @@ export async function updateResetPassword(
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const token = formData.get("token") as string;
-  const password = formData.get("newPassword") as string;
-  const rePassword = formData.get("confirmPassword") as string;
+  const token = formData.get('token') as string;
+  const password = formData.get('newPassword') as string;
+  const rePassword = formData.get('confirmPassword') as string;
 
   // Validate the data
   const result = userRePasswordSchema.safeParse({
@@ -242,11 +243,11 @@ export async function updateResetPassword(
     });
 
     if (!reset) {
-      return formErrorToFormState("Invalid reset token");
+      return formErrorToFormState('Invalid reset token');
     }
 
     if (reset.expires_at < getTimestamp()) {
-      return formErrorToFormState("Reset token expired");
+      return formErrorToFormState('Reset token expired');
     }
 
     const hashedPassword = await hashPassword(password);
@@ -262,9 +263,9 @@ export async function updateResetPassword(
       where: { token },
     });
 
-    return { status: "SUCCESS", message: "Password reset successful" };
+    return { status: 'SUCCESS', message: 'Password reset successful' };
   } catch (error) {
-    console.error("Error during update reset password:", error);
+    console.error('Error during update reset password:', error);
     return formErrorToFormState(null);
   }
 }
@@ -281,8 +282,8 @@ const checkUserExistence = async ({
   });
 
   if (existingUser) {
-    if (existingUser.username === username) return "Username already exists.";
-    if (existingUser.email === email) return "Email already exists.";
+    if (existingUser.username === username) return 'Username already exists.';
+    if (existingUser.email === email) return 'Email already exists.';
   }
 
   return true;
