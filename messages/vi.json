@@ -84,5 +84,25 @@
     "title": "Truy cập bị từ chối",
     "message": "Xin lỗi, bạn không có quyền truy cập trang này. Vui lòng liên hệ quản trị viên để biết thêm chi tiết.",
     "button": "Quay lại trang chủ"
+  },
+  "TermsAndConditions": {
+    "title": "Điều khoản và Điều kiện",
+    "intro": "Chào mừng đến với blog của chúng tôi! Bằng cách đăng ký và sử dụng trang web của chúng tôi, bạn đồng ý với các điều khoản và điều kiện sau đây:",
+    "acceptanceTitle": "1. Chấp nhận Điều khoản",
+    "acceptanceContent": "Bằng cách truy cập và sử dụng trang web của chúng tôi, bạn chấp nhận và đồng ý bị ràng buộc bởi các điều khoản và quy định của thỏa thuận này. Ngoài ra, khi sử dụng các dịch vụ của trang web, bạn phải tuân thủ bất kỳ hướng dẫn hoặc quy tắc nào được đăng áp dụng cho các dịch vụ đó.",
+    "registrationTitle": "2. Đăng ký",
+    "registrationContent": "Người dùng có thể đăng ký vào trang web của chúng tôi bằng cách sử dụng chatbot, được dựa trên Gemini. Bằng cách đăng ký, bạn đồng ý cung cấp thông tin chính xác và đầy đủ về bản thân theo yêu cầu của chatbot.",
+    "userConductTitle": "3. Hành vi Người dùng",
+    "userConductContent": "Bạn đồng ý chỉ sử dụng trang web cho các mục đích hợp pháp và theo cách không xâm phạm quyền của người khác, hạn chế hoặc cản trở sự sử dụng và hưởng thụ trang web của người khác.",
+    "privacyPolicyTitle": "4. Chính sách Bảo mật",
+    "privacyPolicyContent": "Chúng tôi cam kết bảo vệ quyền riêng tư của bạn. Vui lòng xem lại Chính sách Bảo mật của chúng tôi, cũng áp dụng cho việc bạn truy cập vào trang web của chúng tôi, để hiểu rõ về các thực hành của chúng tôi.",
+    "changesToTermsTitle": "5. Thay đổi Điều khoản",
+    "changesToTermsContent": "Chúng tôi có quyền thay đổi các điều khoản này bất cứ lúc nào. Việc bạn tiếp tục sử dụng trang web sau các thay đổi như vậy đồng nghĩa với việc bạn chấp nhận các điều khoản mới.",
+    "contactUsTitle": "6. Liên hệ",
+    "contactUsContent": "Nếu bạn có bất kỳ câu hỏi nào về các Điều khoản và Điều kiện này, vui lòng liên hệ với chúng tôi.",
+    "thankYou": "Cảm ơn bạn đã ghé thăm blog của chúng tôi!"
+  },
+  "Footer": {
+    "reserved": "Bản quyền"
   }
 }

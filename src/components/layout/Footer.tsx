@@ -1,10 +1,12 @@
-import Link from "next/link";
-import { Suspense } from "react";
-import { FaXTwitter } from "react-icons/fa6";
-import ThemeSwitcher from "../common/ThemeSwitcher";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import Link from 'next/link';
+import { Suspense } from 'react';
+import { FaXTwitter } from 'react-icons/fa6';
+import ThemeSwitcher from '../common/ThemeSwitcher';
+import { FaFacebook, FaInstagram } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
-export default async function Footer() {
+export default function Footer() {
+  const t = useTranslations('Footer');
   return (
     <div className="border-t border-gray-200 dark:border-gray-700">
       <div className="mt-8 flex flex-col items-center">
@@ -45,7 +47,7 @@ export default async function Footer() {
           <div>{` • `}</div>
           <div>{`© ${new Date().getFullYear()}`}</div>
           <div>{` • `}</div>
-          <div>All rights reserved</div>
+          <div>{t('reserved')}</div>
           <div>{` • `}</div>
         </div>
       </div>

@@ -84,5 +84,25 @@
     "title": "Unauthorized Access",
     "message": "We’re sorry, but you do not have the necessary permissions to access this page. Please contact your administrator for further assistance or more information.  ",
     "button": "Back to Home page"
+  },
+  "TermsAndConditions": {
+    "title": "Terms and Conditions",
+    "intro": "Welcome to our blog! By registering and using our website, you agree to the following terms and conditions:",
+    "acceptanceTitle": "1. Acceptance of Terms",
+    "acceptanceContent": "By accessing and using our website, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using our website's services, you shall be subject to any posted guidelines or rules applicable to such services.",
+    "registrationTitle": "2. Registration",
+    "registrationContent": "Users can register to our website using our chatbot, which is based on Gemini. By registering, you agree to provide accurate and complete information about yourself as prompted by the chatbot.",
+    "userConductTitle": "3. User Conduct",
+    "userConductContent": "You agree to use the website only for lawful purposes and in a way that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the website.",
+    "privacyPolicyTitle": "4. Privacy Policy",
+    "privacyPolicyContent": "We are committed to protecting your privacy. Please review our Privacy Policy, which also governs your visit to our website, to understand our practices.",
+    "changesToTermsTitle": "5. Changes to Terms",
+    "changesToTermsContent": "We reserve the right to modify these terms at any time. Your continued use of the website after any such changes constitutes your acceptance of the new terms.",
+    "contactUsTitle": "6. Contact Us",
+    "contactUsContent": "If you have any questions about these Terms and Conditions, please contact us.",
+    "thankYou": "Thank you for visiting our blog!"
+  },
+  "Footer": {
+    "reserved": "All rights reserved"
   }
 }

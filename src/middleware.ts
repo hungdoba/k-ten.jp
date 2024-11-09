@@ -15,6 +15,7 @@ const publicPages = new Set([
   'investment',
   'jlpt',
   'gallery',
+  'terms',
 ]);
 
 const authMiddleware = withAuth((req) => intlMiddleware(req));
