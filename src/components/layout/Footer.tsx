@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
         <div className="mb-2 flex flex-row items-center space-x-2 text-sm">
           <div>{` • `}</div>
-          <div>{process.env.NEXT_PUBLIC_WEBSITE_FULLNAME}</div>
+          <div>{process.env.NEXT_PUBLIC_WEBSITE_FULL_NAME}</div>
           <Suspense fallback={<p>...</p>}>
             <ThemeSwitcher />
           </Suspense>
