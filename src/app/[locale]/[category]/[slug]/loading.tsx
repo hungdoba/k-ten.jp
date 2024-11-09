@@ -28,9 +28,9 @@ export default function loading() {
                     {elements.map((element) => {
                       return (
                         <div key={element}>
-                          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4"></div>
-                          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-1/2 md:w-full mb-4"></div>
-                          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-1/2 mb-8"></div>
+                          <div className="h-2 rounded-full w-full mb-4"></div>
+                          <div className="h-2 rounded-full w-1/2 md:w-full mb-4"></div>
+                          <div className="h-2 rounded-full w-1/2 mb-8"></div>
                         </div>
                       );
                     })}
