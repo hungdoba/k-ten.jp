@@ -3,6 +3,7 @@
 import cloudinary from '@/libs/cloudinary';
 import { CloudImage, CloudinaryResource } from '@/types/CloudImage';
 import imagemin from 'imagemin';
+import { unstable_cache } from 'next/cache';
 
 // For admin create, update post
 export async function deleteImage(public_id: string): Promise<boolean> {
@@ -120,3 +121,16 @@ async function getBlurDataUrl(
   )}`;
   return url;
 }
+
+// Cache function
+export const getAllImagesCache = unstable_cache(
+  async () => getAllImages(),
+  ['images'],
+  { tags: ['images'] }
+);
+
+export const getImagesCountCache = unstable_cache(
+  async () => getImagesCount(),
+  ['imagesCount'],
+  { tags: ['images'] }
+);

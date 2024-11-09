@@ -2,7 +2,7 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import getPosts, { getPostsWithCategory } from '@/actions/post';
+import getPosts, { getPostsByCategory } from '@/actions/post';
 import { Locale } from '@/i18n/routing';
 import { TranslatedPost } from '@/types/TranslatedPost';
 
@@ -23,7 +23,7 @@ export default function useGetPosts(
   });
 }
 
-export function useGetPostsWithCategory(
+export function usegetPostsByCategory(
   locale: Locale,
   category: string,
   initialData: TranslatedPost[]
@@ -31,7 +31,7 @@ export function useGetPostsWithCategory(
   return useInfiniteQuery<TranslatedPost[]>({
     queryKey: ['posts', locale, category],
     queryFn: ({ pageParam = 1 }) =>
-      getPostsWithCategory({ locale, category, pageParam }),
+      getPostsByCategory({ locale, category, pageParam }),
     initialData: { pages: [initialData], pageParams: [1] },
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
