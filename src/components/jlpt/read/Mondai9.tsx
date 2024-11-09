@@ -1,7 +1,7 @@
-import QAE from "./QAE";
-import { MondaiData } from "@/types/Jlpt";
-import MondaiContent from "./MondaiContent";
-import { jlpt_question } from "@prisma/client";
+import QAE from './QAE';
+import { MondaiData } from '@/types/Jlpt';
+import MondaiContent from './MondaiContent';
+import { jlpt_question } from '@prisma/client';
 
 interface Props {
   data1: MondaiData;
@@ -11,7 +11,7 @@ interface Props {
   isAdmin: boolean;
 }
 
-export default async function Mondai9({
+export default function Mondai9({
   data1,
   data2,
   data3,

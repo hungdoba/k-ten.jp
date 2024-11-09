@@ -1,6 +1,6 @@
-import QAE from "./QAE";
-import { MondaiData } from "@/types/Jlpt";
-import MondaiContent from "./MondaiContent";
+import QAE from './QAE';
+import { MondaiData } from '@/types/Jlpt';
+import MondaiContent from './MondaiContent';
 
 interface Props {
   data1: MondaiData;
@@ -10,7 +10,7 @@ interface Props {
   isAdmin: boolean;
 }
 
-export default async function Mondai8({
+export default function Mondai8({
   data1,
   data2,
   data3,

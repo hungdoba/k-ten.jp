@@ -1,6 +1,6 @@
-import QAE from "./QAE";
-import { MondaiData } from "@/types/Jlpt";
-import { jlpt_question } from "@prisma/client";
+import QAE from './QAE';
+import { MondaiData } from '@/types/Jlpt';
+import { jlpt_question } from '@prisma/client';
 
 interface Props {
   mondai_number: number;
@@ -8,23 +8,23 @@ interface Props {
   isAdmin: boolean;
 }
 
-export default async function Mondai({ mondai_number, data, isAdmin }: Props) {
+export default function Mondai({ mondai_number, data, isAdmin }: Props) {
   const getHeaderText = (mondai: number): string => {
     switch (mondai) {
       case 1:
-        return "問題１　＿＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つ選びなさい。";
+        return '問題１　＿＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つ選びなさい。';
       case 2:
-        return "問題２（　　）に入れるのに最もよいものを、１・２・３・４から一つ選びなさい。";
+        return '問題２（　　）に入れるのに最もよいものを、１・２・３・４から一つ選びなさい。';
       case 3:
-        return "問題３　＿＿＿の言葉に意味が最も近いものを、１・２・３・４から一つ選びなさい。";
+        return '問題３　＿＿＿の言葉に意味が最も近いものを、１・２・３・４から一つ選びなさい。';
       case 4:
-        return "問題４　次の言葉の近い方として最もよいものを、１・２・３・４から一つ選びなさい。";
+        return '問題４　次の言葉の近い方として最もよいものを、１・２・３・４から一つ選びなさい。';
       case 5:
-        return "問題５　次の文の（　　）に入れるのに最もよいものを、１・２・３・４から一つ選びなさい。";
+        return '問題５　次の文の（　　）に入れるのに最もよいものを、１・２・３・４から一つ選びなさい。';
       case 6:
-        return "問題６　次の文の＿★＿に入る最もよいものを、１・２・３・４から一つ選びなさい。";
+        return '問題６　次の文の＿★＿に入る最もよいものを、１・２・３・４から一つ選びなさい。';
       default:
-        return "問題 未定義";
+        return '問題 未定義';
     }
   };
 

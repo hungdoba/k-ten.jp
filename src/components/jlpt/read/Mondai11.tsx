@@ -1,14 +1,14 @@
-import QAE from "./QAE";
-import { MondaiData } from "@/types/Jlpt";
-import MondaiContent from "./MondaiContent";
-import { jlpt_question } from "@prisma/client";
+import QAE from './QAE';
+import { MondaiData } from '@/types/Jlpt';
+import MondaiContent from './MondaiContent';
+import { jlpt_question } from '@prisma/client';
 
 interface Props {
   data: MondaiData;
   isAdmin: boolean;
 }
 
-export default async function Mondai11({ isAdmin, data }: Props) {
+export default function Mondai11({ isAdmin, data }: Props) {
   return (
     <div className="container mx-auto w-full mt-4 md:max-w-5xl">
       <div className="mx-4 md:mx-8">
