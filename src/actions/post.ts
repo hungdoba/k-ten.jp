@@ -58,29 +58,7 @@ async function fetchPosts({
   return mapPostsToTranslatedPosts(posts);
 }
 
-export default async function getPosts({
-  locale,
-  pageParam,
-}: {
-  locale: Locale;
-  pageParam: unknown;
-}) {
-  return fetchPosts({ locale, pageParam: pageParam as number });
-}
-
-export async function getPostsWithCategory({
-  locale,
-  category,
-  pageParam,
-}: {
-  locale: Locale;
-  category: string;
-  pageParam: unknown;
-}) {
-  return fetchPosts({ locale, category, pageParam: pageParam as number });
-}
-
-export async function getFullPost(
+async function getFullPost(
   locale: Locale,
   category: string,
   slug: string
@@ -242,14 +220,15 @@ export async function getPostData(slug: string) {
 
 // Cache function
 export const getPostsCache = unstable_cache(
-  async (locale: Locale) => fetchPosts({ locale: locale, pageParam: 1 }),
+  async (locale: Locale, pageParam: number) =>
+    fetchPosts({ locale: locale, pageParam: pageParam }),
   ['posts'],
   { tags: ['posts'] }
 );
 
 export const getPostsByCategoryCache = unstable_cache(
-  async (locale: Locale, category: string) =>
-    fetchPosts({ locale: locale, category: category, pageParam: 1 }),
+  async (locale: Locale, category: string, pageParam: number) =>
+    fetchPosts({ locale: locale, category: category, pageParam: pageParam }),
   ['posts'],
   { tags: ['posts'] }
 );

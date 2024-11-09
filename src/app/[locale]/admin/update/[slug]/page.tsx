@@ -1,6 +1,6 @@
-import { getCategories } from "@/actions/category";
-import { getPostData } from "@/actions/post";
-import PostForm from "@/components/forms/PostCreateForm";
+import { getCategoriesCache } from '@/actions/category';
+import { getPostData } from '@/actions/post';
+import PostForm from '@/components/forms/PostCreateForm';
 
 interface Props {
   params: Promise<{
@@ -10,7 +10,7 @@ interface Props {
 
 export default async function Update({ params }: Props) {
   const { slug } = await params;
-  const categories = await getCategories();
+  const categories = await getCategoriesCache();
   const { postStatic, postInfo, postContent } = await getPostData(slug);
   return (
     <PostForm

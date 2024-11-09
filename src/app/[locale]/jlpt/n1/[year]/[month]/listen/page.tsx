@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { jlpt_chokai } from "@prisma/client";
-import Mondai from "@/components/jlpt/listen/Mondai";
-import Mondai5 from "@/components/jlpt/listen/Mondai5";
-import { getJLPTListenFullDetail } from "@/actions/jlpt";
-import { getTranslations } from "next-intl/server";
+import Link from 'next/link';
+import { jlpt_chokai } from '@prisma/client';
+import Mondai from '@/components/jlpt/listen/Mondai';
+import Mondai5 from '@/components/jlpt/listen/Mondai5';
+import { getJLPTListenFullDetailCache } from '@/actions/jlpt';
+import { getTranslations } from 'next-intl/server';
 
 type Props = {
   params: Promise<{ year: string; month: string }>;
@@ -11,8 +11,8 @@ type Props = {
 
 export default async function JLPTDetail({ params }: Props) {
   const { year, month } = await params;
-  const t = await getTranslations("JlptPage");
-  const data = await getJLPTListenFullDetail(year, month);
+  const t = await getTranslations('JlptPage');
+  const data = await getJLPTListenFullDetailCache(year, month);
 
   function getMondai(mondaiNumber: number): jlpt_chokai[] {
     const mondai = data.filter((value) => value.mondai_number === mondaiNumber);
@@ -30,7 +30,7 @@ export default async function JLPTDetail({ params }: Props) {
             <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
               {`${year} - ${month}`}
             </p>
-            <Link href={`./read`}>{t("gotoReading")}</Link>
+            <Link href={`./read`}>{t('gotoReading')}</Link>
           </div>
         </div>
         <hr />
@@ -48,7 +48,7 @@ export default async function JLPTDetail({ params }: Props) {
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
             {`${year} - ${month}`}
           </p>
-          <Link href={`./read`}>{t("gotoReading")}</Link>
+          <Link href={`./read`}>{t('gotoReading')}</Link>
         </div>
       </div>
     </div>

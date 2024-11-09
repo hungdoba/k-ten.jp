@@ -55,7 +55,7 @@ export async function uploadImage(formData: FormData): Promise<string> {
 }
 
 // Has cache function
-export async function getImagesCount(): Promise<number> {
+async function getImagesCount(): Promise<number> {
   try {
     const results = await cloudinary.search
       .expression(
@@ -74,7 +74,7 @@ export async function getImagesCount(): Promise<number> {
 }
 
 // Has cache function
-export async function getAllImages(): Promise<CloudImage[]> {
+async function getAllImages(): Promise<CloudImage[]> {
   try {
     const results = await cloudinary.search
       .expression(
@@ -131,6 +131,6 @@ export const getAllImagesCache = unstable_cache(
 
 export const getImagesCountCache = unstable_cache(
   async () => getImagesCount(),
-  ['imagesCount'],
+  ['images-count'],
   { tags: ['images'] }
 );

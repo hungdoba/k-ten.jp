@@ -6,7 +6,7 @@ import { jlpt_chokai } from '@prisma/client';
 import { unstable_cache } from 'next/cache';
 
 // Has cache function
-export async function getJLPTTimes(): Promise<JlptTime[]> {
+async function getJLPTTimes(): Promise<JlptTime[]> {
   const times = await prisma.jlpt_mondai.findMany({
     orderBy: [{ year: 'asc' }, { month: 'asc' }],
     select: {
@@ -25,7 +25,7 @@ export async function getJLPTTimes(): Promise<JlptTime[]> {
 }
 
 // Has cache function
-export async function getJLPTListenFullDetail(
+async function getJLPTListenFullDetail(
   year: string,
   month: string
 ): Promise<jlpt_chokai[]> {
@@ -39,7 +39,7 @@ export async function getJLPTListenFullDetail(
 }
 
 // Has cache function
-export async function getJLPTReadFullDetail(
+async function getJLPTReadFullDetail(
   year: string,
   month: string
 ): Promise<MondaiData> {
@@ -132,18 +132,18 @@ export async function updateMondaiNote(formData: FormData): Promise<boolean> {
 // Cache function
 export const getJLPTTimesCache = unstable_cache(
   async () => getJLPTTimes(),
-  ['jlpt_times'],
-  { tags: ['jlpt_times'] }
+  ['jlpt-times'],
+  { tags: ['jlpt-times'] }
 );
 
 export const getJLPTListenFullDetailCache = unstable_cache(
   async (year: string, month: string) => getJLPTListenFullDetail(year, month),
-  ['jlpt_listen_full_detail'],
-  { tags: ['jlpt_listen_full_detail'] }
+  ['jlpt-listen-full-detail'],
+  { tags: ['jlpt-listen-full-detail'] }
 );
 
 export const getJLPTReadFullDetailCache = unstable_cache(
   async (year: string, month: string) => getJLPTReadFullDetail(year, month),
-  ['jlpt_read_full_detail'],
-  { tags: ['jlpt_read_full_detail'] }
+  ['jlpt-read-full-detail'],
+  { tags: ['jlpt-read-full-detail'] }
 );

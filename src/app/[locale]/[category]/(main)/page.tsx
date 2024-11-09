@@ -1,6 +1,6 @@
 import { Locale } from '@/i18n/routing';
 import { getCategory } from '@/actions/category';
-import { getPostsByCategory } from '@/actions/post';
+import { getPostsByCategoryCache } from '@/actions/post';
 import PostsCategoryWrapper from '@/components/forms/PostsCategoryWrapper';
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 export default async function Home({ params }: Props) {
   const { category, locale } = await params;
   const postCategory = await getCategory(locale, category);
-  const posts = await getPostsByCategory({ locale, category, pageParam: 1 });
+  const posts = await getPostsByCategoryCache(locale, category, 1);
   return (
     <PostsCategoryWrapper
       locale={locale}

@@ -5,7 +5,7 @@ import { useInView } from 'react-intersection-observer';
 
 import PostThumbnail from '../ui/PostThumbnail';
 import { Locale } from '@/i18n/routing';
-import { usegetPostsByCategory } from '@/hooks/useGetPosts';
+import { useGetPostsByCategory } from '@/hooks/useGetPosts';
 import { TranslatedPost } from '@/types/TranslatedPost';
 import { useTranslations } from 'next-intl';
 import { post_category } from '@prisma/client';
@@ -21,7 +21,7 @@ const PostsCategoryWrapper = ({ locale, category, posts }: Props) => {
 
   const { ref, inView } = useInView();
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    usegetPostsByCategory(locale, category.slug, posts);
+    useGetPostsByCategory(locale, category.slug, posts);
 
   useEffect(() => {
     if (inView) {
