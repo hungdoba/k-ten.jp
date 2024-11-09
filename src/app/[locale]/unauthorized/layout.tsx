@@ -5,8 +5,8 @@ import { Locale } from '@/i18n/routing';
 import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'Gerbi.me',
-  description: 'Gerbi.me',
+  title: process.env.NEXT_PUBLIC_WEBSITE_FULL_NAME,
+  description: 'Unauthorized',
 };
 
 type Props = {
