@@ -11,11 +11,13 @@ const publicPages = new Set([
   '',
   'signin',
   'signup',
+  'forgot',
   'tips',
   'investment',
   'jlpt',
   'gallery',
   'terms',
+  'password',
 ]);
 
 const authMiddleware = withAuth((req) => intlMiddleware(req));

@@ -112,7 +112,7 @@ export default function SignUpPage() {
         >
           {t('agree')}{' '}
           <Link
-            href="#"
+            href="/terms"
             className="text-blue-600 hover:underline dark:text-blue-500"
           >
             {t('term')}
