@@ -1,12 +1,12 @@
-"use client";
-import Image from "next/image";
-import { useState } from "react";
-import { Link, usePathname } from "@/i18n/routing";
-import ThemeSwitcher from "../common/ThemeSwitcher";
-import { NavbarMenuItem } from "../../types/MenuItem";
-import LocaleSwitcher from "../common/LocaleSwitcher";
-import DropdownUser from "../common/DropdownUser";
-import { Session } from "next-auth";
+'use client';
+import Image from 'next/image';
+import { useState } from 'react';
+import { Link, usePathname } from '@/i18n/routing';
+import ThemeSwitcher from '../common/ThemeSwitcher';
+import { NavbarMenuItem } from '../../types/MenuItem';
+import LocaleSwitcher from '../common/LocaleSwitcher';
+import DropdownUser from '../common/DropdownUser';
+import { Session } from 'next-auth';
 
 interface Props {
   menuItems: NavbarMenuItem[];
@@ -34,7 +34,7 @@ export default function NavbarClient({ menuItems, session }: Props) {
               priority
               width={297}
               height={100}
-              className="h-8 md:h-12 w-auto px-4"
+              className="h-8 w-auto px-4"
               alt="Logo"
             />
           </Link>
@@ -53,14 +53,14 @@ export default function NavbarClient({ menuItems, session }: Props) {
                 aria-hidden="true"
                 id="line"
                 className={`m-auto h-0.5 w-5 rounded bg-sky-900 dark:bg-gray-300 transition duration-300 ${
-                  isMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                  isMenuOpen ? 'rotate-45 translate-y-1.5' : ''
                 }`}
               ></div>
               <div
                 aria-hidden="true"
                 id="line2"
                 className={`m-auto mt-2 h-0.5 w-5 rounded bg-sky-900 dark:bg-gray-300 transition duration-300 ${
-                  isMenuOpen ? "-rotate-45 -translate-y-1" : ""
+                  isMenuOpen ? '-rotate-45 -translate-y-1' : ''
                 }`}
               ></div>
             </label>
@@ -72,7 +72,7 @@ export default function NavbarClient({ menuItems, session }: Props) {
           onClick={toggleMenu}
           aria-hidden="true"
           className={`fixed z-10 inset-0 h-screen w-screen md:hidden bg-white/70 backdrop-blur-2xl origin-top transition duration-500 ${
-            isMenuOpen ? "scale-y-100" : "scale-y-0"
+            isMenuOpen ? 'scale-y-100' : 'scale-y-0'
           } md:hidden dark:bg-gray-900/70`}
         ></div>
 
@@ -80,8 +80,8 @@ export default function NavbarClient({ menuItems, session }: Props) {
         <div
           className={`z-20 gap-6 rounded-3xl shadow-2xl shadow-gray-600/10 justify-end w-full transition-all duration-300 scale-95 origin-top ${
             isMenuOpen
-              ? "mt-8 md:mt-0 p-8 md:p-0  opacity-100 visible"
-              : "mt-0 h-0 p-0 invisible opacity-0 md:visible md:opacity-100"
+              ? 'mt-8 md:mt-0 p-8 md:p-0  opacity-100 visible'
+              : 'mt-0 h-0 p-0 invisible opacity-0 md:visible md:opacity-100'
           } md:relative md:scale-100 md:flex md:flex-row md:items-center md:gap-0 md:p-0 md:bg-transparent md:w-max md:shadow-none dark:shadow-none dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700`}
         >
           <div className="md:flex md:flex-row md:items-center">
@@ -95,7 +95,7 @@ export default function NavbarClient({ menuItems, session }: Props) {
                     <Link
                       href={item.href}
                       className={`${
-                        item.href === currentPath && "text-green-400"
+                        item.href === currentPath && 'text-green-400'
                       } block md:px-4 transition hover:text-primary`}
                     >
                       <span>{item.label}</span>
