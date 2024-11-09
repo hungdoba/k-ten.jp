@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+import React, { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
-import PostThumbnail from "../ui/PostThumbnail";
-import { Locale } from "@/i18n/routing";
-import useGetPosts from "@/hooks/useGetPosts";
-import { TranslatedPost } from "@/types/TranslatedPost";
-import { useTranslations } from "next-intl";
+import PostThumbnail from '../ui/PostThumbnail';
+import { Locale } from '@/i18n/routing';
+import useGetPosts from '@/hooks/useGetPosts';
+import { TranslatedPost } from '@/types/TranslatedPost';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   locale: Locale;
@@ -15,8 +15,8 @@ type Props = {
 };
 
 const PostsWrapper = ({ locale, posts }: Props) => {
-  const t = useTranslations("HomePage");
-  const tp = useTranslations("FullPost");
+  const t = useTranslations('HomePage');
+  const tp = useTranslations('FullPost');
 
   const { ref, inView } = useInView();
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetPosts(
@@ -35,10 +35,10 @@ const PostsWrapper = ({ locale, posts }: Props) => {
       <div className="mx-4 md:mx-8">
         <div className="space-y-2 pb-8 md:pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-4xl md:leading-14">
-            {t("title")}
+            {t('title')}
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {t("brief")}
+            {t('brief')}
           </p>
         </div>
         <hr className="mb-4" />
@@ -57,10 +57,10 @@ const PostsWrapper = ({ locale, posts }: Props) => {
       <div ref={ref} />
       <div className="flex items-center justify-center">
         {isFetchingNextPage && hasNextPage ? (
-          <p className="text-center">{tp("loadingMore")}</p>
+          <p className="text-center p-8">{tp('loadingMore')}</p>
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-400 p-8">
-            {tp("noMorePost")}
+            {tp('noMorePost')}
           </p>
         )}
       </div>
