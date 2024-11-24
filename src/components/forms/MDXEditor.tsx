@@ -1,17 +1,17 @@
-"use client";
-import dynamic from "next/dynamic";
-import { useMemo } from "react";
-import toast from "react-hot-toast";
-import { uploadImage } from "@/actions/image";
+'use client';
+import dynamic from 'next/dynamic';
+import { useMemo } from 'react';
+import toast from 'react-hot-toast';
+import { uploadImage } from '@/actions/image';
 
 // Dynamically import 'react-simplemde-editor' to ensure it's only loaded client-side.
-const SimpleMdeReact = dynamic(() => import("react-simplemde-editor"), {
+const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), {
   ssr: false,
 });
 
 // Dynamically import the CSS to avoid bundling it in the initial load.
-if (typeof window !== "undefined") {
-  import("easymde/dist/easymde.min.css");
+if (typeof window !== 'undefined') {
+  import('easymde/dist/easymde.min.css');
 }
 
 interface Props {
@@ -28,21 +28,21 @@ export default function MDXEditor({ value, onChange }: Props) {
     if (file) {
       try {
         const formData = new FormData();
-        formData.append("image", file);
+        formData.append('image', file);
         formData.append(
-          "folder",
+          'folder',
           process.env.NEXT_PUBLIC_CLOUDINARY_POST_FOLDER!
         );
         const imageUrl = await uploadImage(formData);
         if (imageUrl) {
           onSuccess(imageUrl);
-          toast.success("Upload image success");
+          toast.success('Upload image success');
         } else {
-          toast.error("Upload image fail");
+          toast.error('Upload image fail');
         }
       } catch (error) {
-        console.error("Error uploading image:", error);
-        onError("Upload image error, maybe size of image too big");
+        console.error('Error uploading image:', error);
+        onError('Upload image error, maybe size of image too big');
       }
     }
   };

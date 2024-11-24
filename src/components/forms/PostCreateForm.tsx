@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
-import MDXEditor from "@/components/forms/MDXEditor";
-import { post_category } from "@prisma/client";
-import { PostInfo, PostStatic } from "@/types/Post";
-import PostInfoEditor from "./PostInfoEditor";
-import { routing } from "@/i18n/routing";
-import { createPost, updatePost } from "@/actions/post";
-import PostStaticInfoEditor from "./PostStaticInfoEditor";
+import toast from 'react-hot-toast';
+import { useEffect, useState } from 'react';
+import MDXEditor from '@/components/forms/MDXEditor';
+import { post_category } from '@prisma/client';
+import { PostInfo, PostStatic } from '@/types/Post';
+import PostInfoEditor from './PostInfoEditor';
+import { routing } from '@/i18n/routing';
+import { createPost, updatePost } from '@/actions/post';
+import PostStaticInfoEditor from './PostStaticInfoEditor';
 
 interface Props {
-  mode: "create" | "update";
+  mode: 'create' | 'update';
   categories: post_category[];
   initialPostStatic: PostStatic;
   initialPostInfos: Record<string, PostInfo>;
@@ -38,9 +38,9 @@ export default function PostCreateForm({
         event.preventDefault();
       }
     };
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener('beforeunload', handleBeforeUnload);
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [isDirty]);
 
@@ -64,20 +64,20 @@ export default function PostCreateForm({
     postInfos: Record<string, PostInfo>,
     postContents: Record<string, string>
   ): boolean {
-    if (postStatic.slug === "") {
-      toast.error("Slug is empty");
+    if (postStatic.slug === '') {
+      toast.error('Slug is empty');
       return false;
     }
-    if (postStatic.category === "") {
-      toast.error("Category is empty");
+    if (postStatic.category === '') {
+      toast.error('Category is empty');
       return false;
     }
-    if (postStatic.headerImage === "") {
-      toast.error("Header image is empty");
+    if (postStatic.headerImage === '') {
+      toast.error('Header image is empty');
       return false;
     }
-    if (postStatic.tags === "") {
-      toast.error("Tags are empty");
+    if (postStatic.tags === '') {
+      toast.error('Tags are empty');
       return false;
     }
 
@@ -86,19 +86,19 @@ export default function PostCreateForm({
         toast.error(`Title in ${locale} is empty`);
         return false;
       }
-      if (postInfos[locale].title === "") {
+      if (postInfos[locale].title === '') {
         toast.error(`Title in ${locale} is empty`);
         return false;
       }
-      if (postInfos[locale].brief === "") {
+      if (postInfos[locale].brief === '') {
         toast.error(`Brief in ${locale} is empty`);
         return false;
       }
-      if (postInfos[locale].tableOfContent === "") {
+      if (postInfos[locale].tableOfContent === '') {
         toast.error(`Table of content in ${locale} is empty`);
         return false;
       }
-      if (postContents[locale] === "") {
+      if (postContents[locale] === '') {
         toast.error(`Content in ${locale} is empty`);
         return false;
       }
@@ -113,11 +113,11 @@ export default function PostCreateForm({
     }
 
     const formData = new FormData();
-    formData.append("slug", postStatic.slug);
-    formData.append("post_category", postStatic.category);
-    formData.append("tags", postStatic.tags);
-    formData.append("header_image", postStatic.headerImage || "");
-    formData.append("active", postStatic.visible.toString());
+    formData.append('slug', postStatic.slug);
+    formData.append('post_category', postStatic.category);
+    formData.append('tags', postStatic.tags);
+    formData.append('header_image', postStatic.headerImage || '');
+    formData.append('active', postStatic.visible.toString());
 
     const translations = Object.keys(postInfos).map((lang) => ({
       language_code: lang,
@@ -127,23 +127,23 @@ export default function PostCreateForm({
       post_content: postContents[lang],
     }));
 
-    formData.append("translations", JSON.stringify(translations));
+    formData.append('translations', JSON.stringify(translations));
 
     let result;
-    if (mode === "update" && postStatic.id) {
-      formData.append("id", postStatic.id.toString());
+    if (mode === 'update' && postStatic.id) {
+      formData.append('id', postStatic.id.toString());
       result = await updatePost(formData);
     } else {
       result = await createPost(formData);
     }
 
     if (result) {
-      toast.success(`${mode === "update" ? "Update" : "Creation"} Succeeded`);
+      toast.success(`${mode === 'update' ? 'Update' : 'Creation'} Succeeded`);
       setIsDirty(false);
     } else {
       toast.error(
         `${
-          mode === "update" ? "Update" : "Creation"
+          mode === 'update' ? 'Update' : 'Creation'
         } Failed: Check the console for details`
       );
     }
@@ -161,7 +161,7 @@ export default function PostCreateForm({
           <PostInfoEditor
             mode={mode}
             postInfo={postInfos[postStatic.language] || initialPostInfos}
-            postContent={postContents[postStatic.language] || ""}
+            postContent={postContents[postStatic.language] || ''}
             onChange={handlePostInfoChange}
             onSave={handleSubmit}
           />
@@ -169,7 +169,7 @@ export default function PostCreateForm({
         <hr className="md:hidden mb-4" />
         <div className="z-10 w-full md:w-3/4">
           <MDXEditor
-            value={postContents[postStatic.language] || ""}
+            value={postContents[postStatic.language] || ''}
             onChange={handleContentChange}
           />
         </div>
