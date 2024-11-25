@@ -1,10 +1,10 @@
-import prisma from "./libs/prisma";
-import { verifyPassword } from "./utils/crypto";
-import { userSignInSchema } from "./utils/validate";
-import { AuthOptions, DefaultSession, User } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from './libs/prisma';
+import { verifyPassword } from './utils/crypto';
+import { userSignInSchema } from './utils/validate';
+import { AuthOptions, DefaultSession, User } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface User {
     role: string;
   }
@@ -13,7 +13,7 @@ declare module "next-auth" {
     user: {
       id: string;
       role: string;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   interface JWT {
@@ -25,7 +25,7 @@ declare module "next-auth" {
 const auth: AuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         username: {},
         password: {},
@@ -85,14 +85,14 @@ const auth: AuthOptions = {
     },
     session: async ({ session, token }) => {
       if (session?.user) {
-        session.user.id = token.sub ?? "";
+        session.user.id = token.sub ?? '';
         session.user.role = token.role as string;
       }
       return session;
     },
   },
   pages: {
-    signIn: "/signin",
+    signIn: '/signin',
   },
 };
 

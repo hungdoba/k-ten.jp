@@ -1,38 +1,42 @@
-import { routing } from "./i18n/routing";
-import { NextRequest } from "next/server";
-import { withAuth } from "next-auth/middleware";
-import createMiddleware from "next-intl/middleware";
+import { routing } from './i18n/routing';
+import { NextRequest } from 'next/server';
+import { withAuth } from 'next-auth/middleware';
+import createMiddleware from 'next-intl/middleware';
+
+interface AuthRequest extends NextRequest {
+  session: { user: { role: string } };
+}
 
 // TODO: hard-code category and locale for performance,
 // must reconfigure in case of category or locale changes
 const intlMiddleware = createMiddleware(routing);
 
 const publicPages = new Set([
-  "",
-  "signin",
-  "signup",
-  "gallery",
-  "terms",
-  "password",
-  "tips",
-  "jlpt",
-  "investment",
-  "unauthorized",
-  "rss.xml",
+  '',
+  'signin',
+  'signup',
+  'gallery',
+  'terms',
+  'password',
+  'tips',
+  'jlpt',
+  'investment',
+  'unauthorized',
+  'rss.xml',
 ]);
 
 const authMiddleware = withAuth((req) => intlMiddleware(req));
 
 export default function middleware(req: NextRequest) {
   let pathname = req.nextUrl.pathname;
-  const languagePrefix = pathname.split("/")[1];
+  const languagePrefix = pathname.split('/')[1];
 
   // Remove language prefix for easier route handling if matched
-  if (["en", "ja", "vi"].includes(languagePrefix)) {
-    pathname = pathname.replace(`/${languagePrefix}`, "");
+  if (['en', 'ja', 'vi'].includes(languagePrefix)) {
+    pathname = pathname.replace(`/${languagePrefix}`, '');
   }
 
-  const node = pathname.split("/");
+  const node = pathname.split('/');
   const isPublicPage = node.length == 1 || publicPages.has(node[1]);
 
   if (isPublicPage) {
@@ -44,5 +48,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: ['/((?!api|_next|.*\\..*).*)'],
 };
