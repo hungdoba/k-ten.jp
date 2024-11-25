@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    mdxRs: true,
+  },
 };
 
 const bundleAnalyzerConfig = withBundleAnalyzer({
