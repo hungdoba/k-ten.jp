@@ -3,10 +3,6 @@ import { NextRequest } from 'next/server';
 import { withAuth } from 'next-auth/middleware';
 import createMiddleware from 'next-intl/middleware';
 
-interface AuthRequest extends NextRequest {
-  session: { user: { role: string } };
-}
-
 // TODO: hard-code category and locale for performance,
 // must reconfigure in case of category or locale changes
 const intlMiddleware = createMiddleware(routing);

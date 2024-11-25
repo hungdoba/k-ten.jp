@@ -1,11 +1,18 @@
 import prisma from './libs/prisma';
 import { verifyPassword } from './utils/crypto';
 import { userSignInSchema } from './utils/validate';
-import { AuthOptions, DefaultSession, User } from 'next-auth';
+import NextAuth, { DefaultSession, NextAuthOptions, User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
 declare module 'next-auth' {
   interface User {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  }
+
+  interface JWT {
+    id: string;
     role: string;
   }
 
@@ -15,14 +22,17 @@ declare module 'next-auth' {
       role: string;
     } & DefaultSession['user'];
   }
-
-  interface JWT {
-    id: string;
-    role: string;
-  }
 }
 
-const auth: AuthOptions = {
+export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: '/signin',
+  },
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -76,24 +86,25 @@ const auth: AuthOptions = {
     }),
   ],
   callbacks: {
-    jwt: async ({ user, token }) => {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
       }
+
       return token;
     },
-    session: async ({ session, token }) => {
-      if (session?.user) {
-        session.user.id = token.sub ?? '';
+    async session({ session, token, user }) {
+      if (session.user) {
+        session.user.id = token.id as string;
         session.user.role = token.role as string;
       }
+
       return session;
     },
   },
-  pages: {
-    signIn: '/signin',
-  },
 };
 
-export default auth;
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
