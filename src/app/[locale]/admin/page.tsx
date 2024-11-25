@@ -1,18 +1,16 @@
-import { ButtonRevalidate } from "@/components/common/ButtonRevalidate";
-import { Link } from "@/i18n/routing";
-import { adminInfo } from "@/utils/session";
-import { getTranslations } from "next-intl/server";
+import { Link } from '@/i18n/routing';
+import { adminInfo } from '@/utils/session';
+import { getTranslations } from 'next-intl/server';
+import { ButtonRevalidate } from '@/components/common/ButtonRevalidate';
+import { redirect } from 'next/navigation';
 
 export default async function AdminPage() {
-  const t = await getTranslations("Button");
+  const t = await getTranslations('Button');
   const admin = await adminInfo();
+  console.log(admin, admin == false);
+
   if (admin == false) {
-    return {
-      redirect: {
-        destination: "/unauthorized",
-        permanent: false,
-      },
-    };
+    redirect('unauthorized');
   }
 
   return (
@@ -27,10 +25,10 @@ export default async function AdminPage() {
         href={`/admin/create`}
         className="w-full text-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
       >
-        Create New Post
+        {t('createPost')}
       </Link>
-      <ButtonRevalidate tag="cache-image" label={t("revalidateImage")} />
-      <ButtonRevalidate tag="cache-post" label={t("revalidatePost")} />
+      <ButtonRevalidate tag="cache-image" label={t('revalidateImage')} />
+      <ButtonRevalidate tag="cache-post" label={t('revalidatePost')} />
     </div>
   );
 }

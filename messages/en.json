@@ -106,6 +106,7 @@
     "reserved": "All rights reserved"
   },
   "Button": {
+    "createPost": "Create new post",
     "revalidateImage": "Revalidate Image",
     "revalidatePost": "Revalidate Post"
   },

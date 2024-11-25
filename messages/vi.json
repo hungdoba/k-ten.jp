@@ -106,6 +106,7 @@
     "reserved": "Bản quyền"
   },
   "Button": {
+    "createPost": "Tạo bài viết mới",
     "revalidateImage": "Reload lại ảnh",
     "revalidatePost": "Reload lại bài viết"
   },

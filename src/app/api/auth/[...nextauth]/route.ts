@@ -1,13 +1,15 @@
 import prisma from '@/libs/prisma';
 import { verifyPassword } from '@/utils/crypto';
 import { userSignInSchema } from '@/utils/validate';
-import NextAuth, { DefaultSession, NextAuthOptions, User } from 'next-auth';
+import NextAuth, {
+  DefaultSession,
+  DefaultUser,
+  NextAuthOptions,
+  User,
+} from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 declare module 'next-auth' {
-  interface User {
-    id: string;
-    name: string;
-    email: string;
+  interface User extends DefaultUser {
     role: string;
   }
 

@@ -106,6 +106,7 @@
     "reserved": "すべての権利を保有します"
   },
   "Button": {
+    "createPost": "新しい投稿を作成",
     "revalidateImage": "画像をリロード",
     "revalidatePost": "投稿をリロード"
   },

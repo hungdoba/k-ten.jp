@@ -13,7 +13,7 @@ export default function SignInPage() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   if (!token) {
-    redirect('/sign-in');
+    redirect('/signin');
   }
 
   const [formState, formAction] = useFormState(
@@ -27,7 +27,7 @@ export default function SignInPage() {
         toast.error(formState.message);
       } else {
         toast.success(formState.message);
-        redirect('/sign-in');
+        redirect('/signin');
       }
     }
   }, [formState.status, formState.message]);
