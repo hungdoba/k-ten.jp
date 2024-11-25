@@ -113,5 +113,10 @@
   "Rss": {
     "title": "K-ten.jp - Sống Trọn Nhật Bản, Tận Hưởng Từng Khoảnh Khắc",
     "description": "K-ten.jp là một blog giúp bạn sống trọn vẹn ở Nhật Bản, tận hưởng từng khoảnh khắc. Chúng tôi cung cấp cho bạn những thông tin mới nhất, mẹo và thủ thuật để làm cho cuộc sống của bạn ở Nhật Bản thú vị hơn."
+  },
+  "404Page": {
+    "title": "Có gì đó thiếu",
+    "message": "Chúng tôi xin lỗi, nhưng trang bạn đang tìm kiếm có thể đã bị xóa, đổi tên hoặc tạm thời không có sẵn.",
+    "button": "Quay lại trang chủ"
   }
 }

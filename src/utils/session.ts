@@ -1,5 +1,5 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession, User } from 'next-auth';
+import { authOptions } from './auth';
 
 export async function getUserId(): Promise<number | string> {
   const session = await getServerSession(authOptions);

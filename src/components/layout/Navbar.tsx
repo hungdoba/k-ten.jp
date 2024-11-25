@@ -2,7 +2,7 @@ import { Locale } from '@/i18n/routing';
 import NavbarClient from './NavbarClient';
 import { getServerSession } from 'next-auth';
 import { getCategoriesCache } from '@/actions/category';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/utils/auth';
 
 type Props = {
   locale: Locale;

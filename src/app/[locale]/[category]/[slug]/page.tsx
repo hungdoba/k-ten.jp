@@ -7,6 +7,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import TableOfContent from '@/components/layout/TableOfContent';
 import TableOfContentClient from '@/components/layout/TableOfContentClient';
 import { adminInfo } from '@/utils/session';
+import { notFound } from 'next/navigation';
 
 interface Props {
   params: Promise<{ locale: Locale; category: string; slug: string }>;
@@ -19,7 +20,7 @@ export default async function FullPost({ params }: Props) {
   const fullPost = await getFullPostCache(locale, category, slug);
 
   if (!fullPost) {
-    return <div>Post not found</div>;
+    notFound();
   }
 
   return (

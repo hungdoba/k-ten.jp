@@ -113,5 +113,10 @@
   "Rss": {
     "title": "K-ten.jp - Live Fully in Japan, Enjoy Every Moment",
     "description": "K-ten.jp is a blog that helps you live fully in Japan, enjoy every moment. We provide you with the latest information, tips, and tricks to make your life in Japan more enjoyable."
+  },
+  "404Page": {
+    "title": "Something's missing",
+    "message": "We’re sorry, but the page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+    "button": "Back to Home page"
   }
 }
