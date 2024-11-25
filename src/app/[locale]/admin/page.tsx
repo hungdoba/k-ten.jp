@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation';
 export default async function AdminPage() {
   const t = await getTranslations('Button');
   const admin = await adminInfo();
-  console.log(admin, admin == false);
 
   if (admin == false) {
     redirect('unauthorized');
