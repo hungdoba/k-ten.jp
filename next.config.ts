@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
   experimental: {
     mdxRs: true,
   },
+  // bundlePagesRouterDependencies: true,
+  serverExternalPackages: ['easymde'],
 };
 
 const bundleAnalyzerConfig = withBundleAnalyzer({
